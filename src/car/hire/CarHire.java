@@ -4,6 +4,9 @@
  */
 package car.hire;
 
+import car.hire.view.LayoutView;
+import car.hire.view.LoginView;
+
 /**
  *
  * @author DELL i5
@@ -14,7 +17,11 @@ public class CarHire {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        System.out.println("Hello World");
+//        LoginView l1 = new LoginView();
+//        l1.setLocationRelativeTo(null);
+//        l1.setVisible(true);
+
+        new LayoutView().setVisible(true);
     }
-    
+
 }
