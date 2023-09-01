@@ -42,6 +42,8 @@ public class CarBodyPanel extends javax.swing.JPanel {
         addCarButton = new javax.swing.JButton();
         vIDText = new javax.swing.JTextField();
         vYearChooser = new com.toedter.calendar.JYearChooser();
+        chassisNoLabel = new javax.swing.JLabel();
+        chassisNoText = new javax.swing.JTextField();
 
         vNumberLabel1.setText("Vehicle Number");
 
@@ -65,6 +67,8 @@ public class CarBodyPanel extends javax.swing.JPanel {
         addCarButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         addCarButton.setText("Add Car");
 
+        chassisNoLabel.setText("Chassis No");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -80,25 +84,29 @@ public class CarBodyPanel extends javax.swing.JPanel {
                                     .addComponent(vModelLabel)
                                     .addComponent(vBrandLabel)
                                     .addComponent(vYearLabel)
-                                    .addComponent(vPricePDayLabel)
                                     .addComponent(vIdLabel)
                                     .addComponent(vNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(9, 9, 9)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(vYearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(vYearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                        .addComponent(vPricePDayText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(vModelText)
-                                        .addComponent(vBrandText)
                                         .addComponent(vNumberText, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                                        .addComponent(vIDText)))))
+                                        .addComponent(vIDText))
+                                    .addComponent(vPricePDayText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(vModelText, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE)
+                                    .addComponent(chassisNoText, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(vBrandText))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(addCarButton)
-                        .addGap(17, 17, 17))))
+                        .addGap(17, 17, 17))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(vPricePDayLabel)
+                            .addComponent(chassisNoLabel))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,10 +133,14 @@ public class CarBodyPanel extends javax.swing.JPanel {
                     .addComponent(vYearLabel)
                     .addComponent(vYearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(chassisNoLabel)
+                    .addComponent(chassisNoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(vPricePDayLabel)
                     .addComponent(vPricePDayText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 100, Short.MAX_VALUE)
                 .addComponent(addCarButton)
                 .addGap(21, 21, 21))
         );
@@ -138,6 +150,8 @@ public class CarBodyPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     protected javax.swing.JButton addCarButton;
     protected javax.swing.JLabel addCarLabel;
+    private javax.swing.JLabel chassisNoLabel;
+    private javax.swing.JTextField chassisNoText;
     private javax.swing.JLabel vBrandLabel;
     private javax.swing.JTextField vBrandText;
     private javax.swing.JTextField vIDText;

@@ -80,8 +80,6 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
 
         userIDLabel.setText("User ID");
 
-        dobDateChooser.setDateFormatString("yyyy-MM-dd");
-
         javax.swing.GroupLayout uBodyPanel2Layout = new javax.swing.GroupLayout(uBodyPanel2);
         uBodyPanel2.setLayout(uBodyPanel2Layout);
         uBodyPanel2Layout.setHorizontalGroup(
@@ -120,7 +118,7 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
                                 .addGroup(uBodyPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(nicText, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(mobileText, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(dobDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(dobDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, uBodyPanel2Layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(emailText, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))))
