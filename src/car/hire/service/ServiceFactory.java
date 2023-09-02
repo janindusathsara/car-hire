@@ -5,6 +5,7 @@
 package car.hire.service;
 
 import car.hire.service.custom.impl.CarCategoryServiceImpl;
+import car.hire.service.custom.impl.CarServiceImpl;
 
 /**
  *
@@ -27,13 +28,15 @@ public class ServiceFactory {
         switch (type) {
             case CAR_CATEGORY:
                 return new CarCategoryServiceImpl();
+            case CAR:
+                return new CarServiceImpl();
             default:
                 return null;
         }
     }
     
     public enum ServiceType{
-        CAR_CATEGORY
+        CAR_CATEGORY, CAR
     }
     
 }

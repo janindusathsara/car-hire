@@ -127,9 +127,9 @@
                   <Component id="vYearLabel" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="vColourLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="vColourText" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="vColourLabel" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -137,9 +137,9 @@
                   <Component id="chassisNoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="vPricePDayLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="vPricePDayText" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="vPricePDayLabel" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="48" max="32767" attributes="0"/>
               <Component id="addCarButton" min="-2" max="-2" attributes="0"/>

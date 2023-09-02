@@ -4,6 +4,13 @@
  */
 package car.hire.view;
 
+import car.hire.controller.CarController;
+import car.hire.dto.CarDto;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author DELL i5
@@ -11,12 +18,15 @@ package car.hire.view;
 public class CarPanel extends javax.swing.JPanel {
 
     CarBodyPanel carBodyPanel = new CarBodyPanel();
+    CarController carController;
 
     /**
      * Creates new form CarPanel
      */
     public CarPanel() {
-        initComponents();        
+        initComponents();
+        carController = new CarController();
+        loadCarTable();
     }
 
     /**
@@ -171,5 +181,84 @@ public class CarPanel extends javax.swing.JPanel {
         cBodyPanel.add(carBodyPanel);
         cBodyPanel.repaint();
         cBodyPanel.revalidate();
+    }
+
+    private void loadCarTable() {
+
+        switch (jComboBox1.getSelectedIndex()) {
+
+            case 2:
+
+                String[] columns = {"ID", "Vehicle No", "Category ID", "Model", "Brand", "Chassis No"};
+                DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                carTable.setModel(dtm);
+
+                ArrayList<CarDto> carDtos;
+                try {
+                    carDtos = carController.getAllCars();
+                    for (CarDto carDto : carDtos) {
+                        Object[] rowData = {carDto.getVehicleId(), carDto.getVehicleNumber(), carDto.getCarCategoryEntity(), carDto.getModel(), carDto.getBrand(), carDto.getChassisNo()};
+                        dtm.addRow(rowData);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(CarPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                break;
+
+            case 3:
+
+                String[] columns3 = {"ID", "Vehicle No", "Category ID", "Model", "Brand", "Year", "Colour", "PricePerDay"};
+                DefaultTableModel dtm3 = new DefaultTableModel(columns3, 0) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                carTable.setModel(dtm3);
+
+                ArrayList<CarDto> carDtos3;
+                try {
+                    carDtos3 = carController.getAllCars();
+                    for (CarDto carDto : carDtos3) {
+                        Object[] rowData = {carDto.getVehicleId(), carDto.getVehicleNumber(), carDto.getCarCategoryEntity(), carDto.getModel(), carDto.getBrand(), carDto.getYear(), carDto.getColour(), carDto.getPricePerDay()};
+                        dtm3.addRow(rowData);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(CarPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                break;
+
+            default:
+
+                String[] columns1 = {"ID", "Vehicle No", "Category ID", "Model", "Brand", "Year", "Colour", "Chassis No", "PricePerDay"};
+                DefaultTableModel dtm1 = new DefaultTableModel(columns1, 0) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                carTable.setModel(dtm1);
+
+                ArrayList<CarDto> carDtos1;
+                
+            try {
+                carDtos1 = carController.getAllCars();
+                for (CarDto carDto : carDtos1) {
+                    Object[] rowData = {carDto.getVehicleId(), carDto.getVehicleNumber(), carDto.getCarCategoryEntity(), carDto.getModel(), carDto.getBrand(), carDto.getYear(), carDto.getColour(), carDto.getChassisNo(), carDto.getPricePerDay()};
+                    dtm1.addRow(rowData);
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(CarPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+        }
+
     }
 }
