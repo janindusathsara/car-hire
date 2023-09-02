@@ -4,17 +4,29 @@
  */
 package car.hire.view;
 
+import car.hire.controller.CarCategoryController;
+import car.hire.dto.CarCategoryDto;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author DELL i5
  */
 public class ManageCategoriesPanel extends javax.swing.JPanel {
 
+    CarCategoryController categoryController;
+
     /**
      * Creates new form ManageCatagoriesPanel
      */
     public ManageCategoriesPanel() {
+        categoryController = new CarCategoryController();
         initComponents();
+        loadCarCategoryTable();
     }
 
     /**
@@ -53,6 +65,11 @@ public class ManageCategoriesPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        carCategoryTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                carCategoryTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(carCategoryTable);
 
         nameLabel.setText("Name");
@@ -61,13 +78,28 @@ public class ManageCategoriesPanel extends javax.swing.JPanel {
 
         addButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         addButton.setText("Add");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
 
         updateButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
 
         deleteButton.setBackground(new java.awt.Color(255, 153, 153));
         deleteButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         deleteButton.setText("Delete");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -121,6 +153,22 @@ public class ManageCategoriesPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        addCarCategory();
+    }//GEN-LAST:event_addButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        updateCarCategory();
+    }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void carCategoryTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carCategoryTableMouseClicked
+        getCarCategory();
+    }//GEN-LAST:event_carCategoryTableMouseClicked
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        deleteCarCategory();
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
@@ -134,4 +182,93 @@ public class ManageCategoriesPanel extends javax.swing.JPanel {
     private javax.swing.JTextField nameText;
     private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
+
+    private void addCarCategory() {
+
+        try {
+            CarCategoryDto categoryDto = new CarCategoryDto(
+                    Integer.parseInt(idText.getText()),
+                    nameText.getText());
+
+            String result = categoryController.addCarCategory(categoryDto);
+            JOptionPane.showMessageDialog(this, result);
+            clearPanel();
+            loadCarCategoryTable();
+        } catch (Exception ex) {
+            Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void loadCarCategoryTable() {
+
+        try {
+            String[] columns = {"ID", "Name"};
+            DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            carCategoryTable.setModel(dtm);
+
+            ArrayList<CarCategoryDto> categoryDtos = categoryController.getAllCarCategories();
+
+            for (CarCategoryDto categoryDto : categoryDtos) {
+                Object[] rawdata = {categoryDto.getId(), categoryDto.getName()};
+                dtm.addRow(rawdata);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void getCarCategory() {
+        try {
+            String id = carCategoryTable.getValueAt(carCategoryTable.getSelectedRow(), 0).toString();
+            CarCategoryDto dto = categoryController.getCarCategory(id);
+            idText.setText(Integer.toString(dto.getId()));
+            nameText.setText(dto.getName());
+        } catch (Exception ex) {
+            Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void updateCarCategory() {
+
+        try {
+            CarCategoryDto categoryDto = new CarCategoryDto(
+                    Integer.parseInt(idText.getText()),
+                    nameText.getText());
+
+            String result = categoryController.updateCarCategory(categoryDto);
+            JOptionPane.showMessageDialog(this, result);
+            clearPanel();
+            loadCarCategoryTable();
+        } catch (Exception ex) {
+            Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    private void deleteCarCategory() {
+        try {
+            CarCategoryDto categoryDto = new CarCategoryDto(
+                    Integer.parseInt(idText.getText()),
+                    nameText.getText());
+            String result = categoryController.deleteCarCategory(categoryDto);
+            JOptionPane.showMessageDialog(this, result);
+            clearPanel();
+            loadCarCategoryTable();
+        } catch (Exception ex) {
+            Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void clearPanel() {
+        idText.setText("");
+        nameText.setText("");
+    }
+
 }

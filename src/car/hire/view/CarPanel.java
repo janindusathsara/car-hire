@@ -9,14 +9,14 @@ package car.hire.view;
  * @author DELL i5
  */
 public class CarPanel extends javax.swing.JPanel {
-    
+
     CarBodyPanel carBodyPanel = new CarBodyPanel();
 
     /**
      * Creates new form CarPanel
      */
     public CarPanel() {
-        initComponents();
+        initComponents();        
     }
 
     /**
@@ -31,10 +31,10 @@ public class CarPanel extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         cBodyPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        carTable = new javax.swing.JTable();
         addCarButton = new javax.swing.JButton();
         updateCarButton = new javax.swing.JButton();
-        deleteCarButton1 = new javax.swing.JButton();
+        deleteCarButton = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(204, 255, 204));
@@ -45,7 +45,7 @@ public class CarPanel extends javax.swing.JPanel {
 
         cBodyPanel.setBackground(new java.awt.Color(204, 255, 204));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        carTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -56,7 +56,7 @@ public class CarPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(carTable);
 
         addCarButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         addCarButton.setText("Add New Car");
@@ -74,12 +74,12 @@ public class CarPanel extends javax.swing.JPanel {
             }
         });
 
-        deleteCarButton1.setBackground(new java.awt.Color(255, 153, 153));
-        deleteCarButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        deleteCarButton1.setText("Delete Car");
-        deleteCarButton1.addActionListener(new java.awt.event.ActionListener() {
+        deleteCarButton.setBackground(new java.awt.Color(255, 153, 153));
+        deleteCarButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        deleteCarButton.setText("Delete Car");
+        deleteCarButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteCarButton1ActionPerformed(evt);
+                deleteCarButtonActionPerformed(evt);
             }
         });
 
@@ -97,7 +97,7 @@ public class CarPanel extends javax.swing.JPanel {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, cBodyPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(deleteCarButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(deleteCarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(updateCarButton, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -118,7 +118,7 @@ public class CarPanel extends javax.swing.JPanel {
                 .addGroup(cBodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addCarButton)
                     .addComponent(updateCarButton)
-                    .addComponent(deleteCarButton1))
+                    .addComponent(deleteCarButton))
                 .addGap(23, 23, 23))
         );
 
@@ -139,9 +139,9 @@ public class CarPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void deleteCarButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCarButton1ActionPerformed
+    private void deleteCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCarButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteCarButton1ActionPerformed
+    }//GEN-LAST:event_deleteCarButtonActionPerformed
 
     private void addCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCarButtonActionPerformed
         loadCarBodyPanel();
@@ -157,11 +157,11 @@ public class CarPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCarButton;
     private javax.swing.JPanel cBodyPanel;
-    private javax.swing.JButton deleteCarButton1;
+    private javax.swing.JTable carTable;
+    private javax.swing.JButton deleteCarButton;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton updateCarButton;
     // End of variables declaration//GEN-END:variables
 

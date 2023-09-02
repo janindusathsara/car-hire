@@ -23,8 +23,8 @@ public class CarHire {
 //        l1.setLocationRelativeTo(null);
 //        l1.setVisible(true);
 
-//        new LayoutView().setVisible(true);
-        Session session = SessionFactoryConfiguration.getInstance().getSession();
+        new LayoutView().setVisible(true);
+//        Session session = SessionFactoryConfiguration.getInstance().getSession();
     }
 
 }

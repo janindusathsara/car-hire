@@ -13,7 +13,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -40,7 +39,7 @@ public class RentEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RentID")
     private Integer rentId;
-    
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "Customer_ID", nullable = false)
     private CustomerEntity customerEntity;
@@ -68,14 +67,14 @@ public class RentEntity {
 
     @Column(name = "Total", nullable = false)
     private Double total;
-    
+
     @Column(name = "Balance")
     private Double balance;
-    
-    @Column(name = "UserID")
+
+    @Column(name = "UserID", nullable = false)
     private Integer userId;
 
     @Column(name = "Is_Returned")
     private Boolean isReturned;
-    
+
 }

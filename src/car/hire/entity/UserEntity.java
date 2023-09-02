@@ -37,6 +37,9 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer userId;
 
+    @Column(name = "UserTitle", nullable = false, length = 5)
+    private String uTitle;
+    
     @Column(name = "Name", nullable = false, length = 100)
     private String uname;
 
@@ -46,12 +49,12 @@ public class UserEntity {
     @Column(name = "E-mail", nullable = false, length = 255)
     private String email;
 
-    @Column(name = "Phone_No", nullable = false, length = 10)
-    private Integer uPhoneNo;
-
     @Column(name = "DOB", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date dob;
+
+    @Column(name = "Phone_No", nullable = false, length = 10)
+    private Integer uPhoneNo;
 
     @Column(name = "UserName", nullable = false, length = 100)
     private String userName;

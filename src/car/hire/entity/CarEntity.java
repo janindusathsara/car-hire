@@ -55,6 +55,9 @@ public class CarEntity {
     @Column(name = "Year", nullable = false, length = 4)
     private Integer year;
     
+    @Column(name = "Colour", nullable = false, length = 20)
+    private String colour;
+    
     @Column(name = "Chassis_No", nullable = false, length = 17)
     private String chassisNo;
     
