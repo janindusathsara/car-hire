@@ -39,7 +39,9 @@ public class CarCategoryServiceImpl implements CarCategoryService{
         ArrayList<CarCategoryEntity> categoryEntitys = carCategoryDao.getAllCarCategories();
         
         for (CarCategoryEntity entity : categoryEntitys) {
-            CarCategoryDto dto = new CarCategoryDto(entity.getCategoryId() , entity.getName());
+            CarCategoryDto dto = new CarCategoryDto(
+                    entity.getCategoryId() , 
+                    entity.getName());
             categoryDtos.add(dto);
         }
         

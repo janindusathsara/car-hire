@@ -10,7 +10,7 @@ package car.hire.view;
  */
 public class CustomerPanel extends javax.swing.JPanel {
     
-    CustomerBodyPanel customerBodyPanel = new CustomerBodyPanel();
+    CustomerBodyPanel1 customerBodyPanel = new CustomerBodyPanel1();
 
     /**
      * Creates new form CustomerPanel
@@ -147,8 +147,6 @@ public class CustomerPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addCustomerButtonActionPerformed
 
     private void updateCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCustomerButtonActionPerformed
-        customerBodyPanel.addButton.setText("Update");
-        customerBodyPanel.addCustomerLabel.setText("Update Customer");
         loadCustomerBodyPanel();
     }//GEN-LAST:event_updateCustomerButtonActionPerformed
 

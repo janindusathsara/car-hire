@@ -21,15 +21,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="addCarLabel" alignment="0" pref="632" max="32767" attributes="0"/>
+                          <Component id="updateCarLabel" alignment="0" pref="632" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="vNumberLabel" min="-2" pref="94" max="-2" attributes="0"/>
+                                  <Component id="vNumberLabel" alignment="0" min="-2" pref="94" max="-2" attributes="0"/>
                                   <Component id="vCategoryIdLabel" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
                                   <Component id="vIdLabel" alignment="0" min="-2" pref="74" max="-2" attributes="0"/>
                                   <Component id="vModelLabel" alignment="0" min="-2" pref="56" max="-2" attributes="0"/>
@@ -37,17 +37,17 @@
                               </Group>
                               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="vNumberText" alignment="0" pref="237" max="32767" attributes="0"/>
-                                      <Component id="vIDText" max="32767" attributes="0"/>
+                                      <Component id="vIDText" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                                   <Component id="vYearChooser" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="vCategoryIdText" min="-2" pref="95" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                                       <Component id="searchButton" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace max="-2" attributes="0"/>
-                                      <Component id="categoryDataLabel" min="-2" pref="275" max="-2" attributes="0"/>
+                                      <Component id="vCategoryDataLabel" min="-2" pref="275" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
                                       <Component id="vModelText" alignment="0" max="32767" attributes="0"/>
@@ -61,20 +61,20 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="addCarButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="updateCarButton" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="chassisNoLabel" min="-2" pref="69" max="-2" attributes="0"/>
-                                  <Component id="vPricePDayLabel" min="-2" pref="85" max="-2" attributes="0"/>
+                                  <Component id="chassisNoLabel" alignment="0" min="-2" pref="69" max="-2" attributes="0"/>
+                                  <Component id="vPricePDayLabel" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="chassisNoText" min="-2" pref="165" max="-2" attributes="0"/>
-                                  <Component id="vPricePDayText" min="-2" pref="100" max="-2" attributes="0"/>
+                                  <Component id="vChassisNoText" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
+                                  <Component id="vPricePDayText" alignment="0" min="-2" pref="100" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                           <Component id="vBrandLabel" alignment="0" min="-2" pref="56" max="-2" attributes="0"/>
@@ -93,7 +93,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="addCarLabel" min="-2" pref="30" max="-2" attributes="0"/>
+              <Component id="updateCarLabel" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="vIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -108,8 +108,8 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="vCategoryIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="vCategoryIdText" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="searchButton" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                  <Component id="categoryDataLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="vCategoryDataLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="searchButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -123,42 +123,39 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="vYearChooser" min="-2" max="-2" attributes="0"/>
-                  <Component id="vYearLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="vYearChooser" alignment="1" min="-2" max="-2" attributes="0"/>
+                  <Component id="vYearLabel" alignment="1" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="vColourText" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="vColourLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="vColourLabel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="chassisNoText" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="vChassisNoText" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="chassisNoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="vPricePDayText" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="vPricePDayLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="vPricePDayLabel" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="48" max="32767" attributes="0"/>
-              <Component id="addCarButton" min="-2" max="-2" attributes="0"/>
+              <Component id="updateCarButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="addCarLabel">
+    <Component class="javax.swing.JLabel" name="updateCarLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Register New Car"/>
+        <Property name="text" type="java.lang.String" value="Update Car"/>
       </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="vIdLabel">
       <Properties>
@@ -214,18 +211,21 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="addCarButton">
+    <Component class="javax.swing.JButton" name="updateCarButton">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Add Car"/>
+        <Property name="text" type="java.lang.String" value="Update Car"/>
       </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
-      </AuxValues>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateCarButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="vIDText">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="com.toedter.calendar.JYearChooser" name="vYearChooser">
     </Component>
@@ -237,7 +237,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="chassisNoText">
+    <Component class="javax.swing.JTextField" name="vChassisNoText">
     </Component>
     <Component class="javax.swing.JLabel" name="vCategoryIdLabel">
       <Properties>
@@ -251,18 +251,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="vModelText">
     </Component>
-    <Component class="javax.swing.JButton" name="searchButton">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Segoe UI" size="12" style="1"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Search"/>
-        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[72, 22]"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="categoryDataLabel">
+    <Component class="javax.swing.JLabel" name="vCategoryDataLabel">
       <Properties>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[50, 22]"/>
@@ -278,6 +267,20 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="vColourText">
+    </Component>
+    <Component class="javax.swing.JButton" name="searchButton">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Search"/>
+        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+          <Dimension value="[72, 22]"/>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

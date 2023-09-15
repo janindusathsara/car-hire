@@ -60,10 +60,12 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="addCustomerLabel" min="-2" pref="33" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="custNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="custNameText" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jComboBox" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="custNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="custNameText" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -96,11 +98,8 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Register New Customer"/>
+        <Property name="text" type="java.lang.String" value="Update Customer"/>
       </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="custNameLabel">
       <Properties>
@@ -135,11 +134,8 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Segoe UI" size="14" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Register"/>
+        <Property name="text" type="java.lang.String" value="Update"/>
       </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="4"/>
-      </AuxValues>
     </Component>
     <Component class="javax.swing.JComboBox" name="jComboBox">
       <Properties>

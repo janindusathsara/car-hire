@@ -42,8 +42,9 @@ public class CarEntity {
     @Column(name = "Vehicle_No", nullable = false, length = 8)
     private String vehicleNumber;
     
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "Category_ID", nullable = false)
+    @ToString.Exclude
     private CarCategoryEntity carCategoryEntity;
     
     @Column(name = "Model", nullable = false, length = 50)
@@ -67,6 +68,7 @@ public class CarEntity {
     private Boolean isAvailable;
     
     @OneToMany(mappedBy = "rentId", targetEntity = RentEntity.class)
+    @ToString.Exclude
     private List<RentEntity> rentEntitys;
 
 }

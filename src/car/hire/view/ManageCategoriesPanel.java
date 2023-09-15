@@ -235,35 +235,74 @@ public class ManageCategoriesPanel extends javax.swing.JPanel {
         }
     }
 
+    private Integer getCategory() {
+        Integer carId = (Integer) carCategoryTable.getValueAt(carCategoryTable.getSelectedRow(), 0);
+        return carId;
+    }
+
     private void updateCarCategory() {
 
-        try {
-            CarCategoryDto categoryDto = new CarCategoryDto(
-                    Integer.parseInt(idText.getText()),
-                    nameText.getText());
+        Integer categoryId = 0;
 
-            String result = categoryController.updateCarCategory(categoryDto);
-            JOptionPane.showMessageDialog(this, result);
-            clearPanel();
-            loadCarCategoryTable();
-        } catch (Exception ex) {
-            Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+        try {
+            categoryId = getCategory();
+
+            if (categoryId != 0) {
+
+                try {
+                    CarCategoryDto categoryDto = new CarCategoryDto(
+                            Integer.parseInt(idText.getText()),
+                            nameText.getText());
+
+                    String result = categoryController.updateCarCategory(categoryDto);
+                    JOptionPane.showMessageDialog(this, result);
+                    clearPanel();
+                    loadCarCategoryTable();
+                } catch (Exception ex) {
+                    Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a Car Category from the table before update");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please select a Car Category from the table before update");
+
         }
 
     }
 
     private void deleteCarCategory() {
+
+        Integer categoryId = 0;
+
         try {
-            CarCategoryDto categoryDto = new CarCategoryDto(
-                    Integer.parseInt(idText.getText()),
-                    nameText.getText());
-            String result = categoryController.deleteCarCategory(categoryDto);
-            JOptionPane.showMessageDialog(this, result);
-            clearPanel();
-            loadCarCategoryTable();
-        } catch (Exception ex) {
-            Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+            categoryId = getCategory();
+
+            if (categoryId != 0) {
+
+                try {
+                    CarCategoryDto categoryDto = new CarCategoryDto(
+                            Integer.parseInt(idText.getText()),
+                            nameText.getText());
+                    String result = categoryController.deleteCarCategory(categoryDto);
+                    JOptionPane.showMessageDialog(this, result);
+                    clearPanel();
+                    loadCarCategoryTable();
+                } catch (Exception ex) {
+                    Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a Car Category from the table before delete");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please select a Car Category from the table before delete");
+
         }
+
     }
 
     private void clearPanel() {

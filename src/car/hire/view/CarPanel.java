@@ -9,6 +9,7 @@ import car.hire.dto.CarDto;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class CarPanel extends javax.swing.JPanel {
 
-    CarBodyPanel carBodyPanel = new CarBodyPanel();
     CarController carController;
 
     /**
@@ -66,6 +66,12 @@ public class CarPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        carTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        carTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                carTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(carTable);
 
         addCarButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -94,6 +100,11 @@ public class CarPanel extends javax.swing.JPanel {
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Cars", "Rented Cars", "Available Cars" }));
+        jComboBox1.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboBox1ItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout cBodyPanelLayout = new javax.swing.GroupLayout(cBodyPanel);
         cBodyPanel.setLayout(cBodyPanelLayout);
@@ -150,18 +161,40 @@ public class CarPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCarButtonActionPerformed
-        // TODO add your handling code here:
+        deleteCar();
     }//GEN-LAST:event_deleteCarButtonActionPerformed
 
     private void addCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCarButtonActionPerformed
-        loadCarBodyPanel();
+        loadCarBodyPanel1();
     }//GEN-LAST:event_addCarButtonActionPerformed
 
     private void updateCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCarButtonActionPerformed
-        carBodyPanel.addCarLabel.setText("Update Car");
-        carBodyPanel.addCarButton.setText("Update Car");
-        loadCarBodyPanel();
+        Integer carId = 0;
+        
+        try {
+            carId = getCarId();
+            
+            if (carId != 0) {
+                
+                loadCarBodyPanel2(carId);
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Car not found");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please select a Car from the table before update");
+        }
+        
+        
     }//GEN-LAST:event_updateCarButtonActionPerformed
+
+    private void jComboBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboBox1ItemStateChanged
+        loadCarTable();
+    }//GEN-LAST:event_jComboBox1ItemStateChanged
+
+    private void carTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_carTableMouseClicked
+        Integer carId = getCarId();
+    }//GEN-LAST:event_carTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -175,10 +208,20 @@ public class CarPanel extends javax.swing.JPanel {
     private javax.swing.JButton updateCarButton;
     // End of variables declaration//GEN-END:variables
 
-    private void loadCarBodyPanel() {
+    private void loadCarBodyPanel1() {
         cBodyPanel.removeAll();
-        carBodyPanel.setSize(cBodyPanel.getWidth(), cBodyPanel.getHeight());
-        cBodyPanel.add(carBodyPanel);
+        CarBodyPanel1 carBodyPanel1 = new CarBodyPanel1();
+        carBodyPanel1.setSize(cBodyPanel.getWidth(), cBodyPanel.getHeight());
+        cBodyPanel.add(carBodyPanel1);
+        cBodyPanel.repaint();
+        cBodyPanel.revalidate();
+    }
+
+    private void loadCarBodyPanel2(Integer carId) {
+        cBodyPanel.removeAll();
+        CarBodyPanel2 carBodyPanel2 = new CarBodyPanel2(carId);
+        carBodyPanel2.setSize(cBodyPanel.getWidth(), cBodyPanel.getHeight());
+        cBodyPanel.add(carBodyPanel2);
         cBodyPanel.repaint();
         cBodyPanel.revalidate();
     }
@@ -187,7 +230,7 @@ public class CarPanel extends javax.swing.JPanel {
 
         switch (jComboBox1.getSelectedIndex()) {
 
-            case 2:
+            case 1:
 
                 String[] columns = {"ID", "Vehicle No", "Category ID", "Model", "Brand", "Chassis No"};
                 DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
@@ -200,9 +243,9 @@ public class CarPanel extends javax.swing.JPanel {
 
                 ArrayList<CarDto> carDtos;
                 try {
-                    carDtos = carController.getAllCars();
+                    carDtos = carController.getRentedCars();
                     for (CarDto carDto : carDtos) {
-                        Object[] rowData = {carDto.getVehicleId(), carDto.getVehicleNumber(), carDto.getCarCategoryEntity(), carDto.getModel(), carDto.getBrand(), carDto.getChassisNo()};
+                        Object[] rowData = {carDto.getVehicleId(), carDto.getVehicleNumber(), carDto.getCarCategoryEntity().getCategoryId(), carDto.getModel(), carDto.getBrand(), carDto.getChassisNo()};
                         dtm.addRow(rowData);
                     }
                 } catch (Exception ex) {
@@ -211,7 +254,7 @@ public class CarPanel extends javax.swing.JPanel {
 
                 break;
 
-            case 3:
+            case 2:
 
                 String[] columns3 = {"ID", "Vehicle No", "Category ID", "Model", "Brand", "Year", "Colour", "PricePerDay"};
                 DefaultTableModel dtm3 = new DefaultTableModel(columns3, 0) {
@@ -224,9 +267,9 @@ public class CarPanel extends javax.swing.JPanel {
 
                 ArrayList<CarDto> carDtos3;
                 try {
-                    carDtos3 = carController.getAllCars();
+                    carDtos3 = carController.getAvailableCars();
                     for (CarDto carDto : carDtos3) {
-                        Object[] rowData = {carDto.getVehicleId(), carDto.getVehicleNumber(), carDto.getCarCategoryEntity(), carDto.getModel(), carDto.getBrand(), carDto.getYear(), carDto.getColour(), carDto.getPricePerDay()};
+                        Object[] rowData = {carDto.getVehicleId(), carDto.getVehicleNumber(), carDto.getCarCategoryEntity().getCategoryId(), carDto.getModel(), carDto.getBrand(), carDto.getYear(), carDto.getColour(), carDto.getPricePerDay()};
                         dtm3.addRow(rowData);
                     }
                 } catch (Exception ex) {
@@ -247,17 +290,45 @@ public class CarPanel extends javax.swing.JPanel {
                 carTable.setModel(dtm1);
 
                 ArrayList<CarDto> carDtos1;
-                
-            try {
-                carDtos1 = carController.getAllCars();
-                for (CarDto carDto : carDtos1) {
-                    Object[] rowData = {carDto.getVehicleId(), carDto.getVehicleNumber(), carDto.getCarCategoryEntity(), carDto.getModel(), carDto.getBrand(), carDto.getYear(), carDto.getColour(), carDto.getChassisNo(), carDto.getPricePerDay()};
-                    dtm1.addRow(rowData);
+
+                try {
+                    carDtos1 = carController.getAllCars();
+                    for (CarDto carDto : carDtos1) {
+                        Object[] rowData = {carDto.getVehicleId(), carDto.getVehicleNumber(), carDto.getCarCategoryEntity().getCategoryId(), carDto.getModel(), carDto.getBrand(), carDto.getYear(), carDto.getColour(), carDto.getChassisNo(), carDto.getPricePerDay()};
+                        dtm1.addRow(rowData);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(CarPanel.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            } catch (Exception ex) {
-                Logger.getLogger(CarPanel.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+
+    }
+
+    private Integer getCarId() {
+        Integer carId = (Integer) carTable.getValueAt(carTable.getSelectedRow(), 0);
+        return carId;
+    }
+
+    private void deleteCar() {
+        Integer carId = 0;
+        try {
+            carId = getCarId();
+            if (carId != 0) {
+                try {
+
+                    //Integer carId = getCarId();
+                    String result = carController.deleteCar(carId.toString());
+                    JOptionPane.showMessageDialog(this, result);
+                    loadCarTable();
+                } catch (Exception ex) {
+                    Logger.getLogger(CarPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a Car from the table before delete");
             }
-                
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please select a Car from the table before delete");
         }
 
     }

@@ -8,12 +8,12 @@ package car.hire.view;
  *
  * @author DELL i5
  */
-public class CustomerBodyPanel extends javax.swing.JPanel {
+public class CustomerBodyPanel1 extends javax.swing.JPanel {
 
     /**
      * Creates new form CustomerBodyPanel
      */
-    public CustomerBodyPanel() {
+    public CustomerBodyPanel1() {
         initComponents();
     }
 
@@ -92,10 +92,11 @@ public class CustomerBodyPanel extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(addCustomerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(51, 51, 51)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(custNameLabel)
-                    .addComponent(custNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(custNameLabel)
+                        .addComponent(custNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(custAddressLabel)
@@ -116,8 +117,8 @@ public class CustomerBodyPanel extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JButton addButton;
-    protected javax.swing.JLabel addCustomerLabel;
+    private javax.swing.JButton addButton;
+    private javax.swing.JLabel addCustomerLabel;
     private javax.swing.JLabel custAddressLabel;
     private javax.swing.JTextField custAddressText;
     private javax.swing.JLabel custMobileLabel;

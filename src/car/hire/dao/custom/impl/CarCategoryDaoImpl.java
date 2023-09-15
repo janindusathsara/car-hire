@@ -39,9 +39,11 @@ public class CarCategoryDaoImpl implements CarCategoryDao {
 
     @Override
     public CarCategoryEntity getCarCategory(String id) throws Exception {
+        Transaction transaction = session.beginTransaction();
         String hql = "FROM CarCategoryEntity WHERE id = '" + id + "'";
         Query query = session.createQuery(hql);
         CarCategoryEntity entity = (CarCategoryEntity) query.uniqueResult();
+        transaction.commit();
         session.clear();
         return entity;
     }
@@ -63,7 +65,7 @@ public class CarCategoryDaoImpl implements CarCategoryDao {
     @Override
     public String deleteCarCategory(CarCategoryEntity entity) throws Exception {
         Transaction transaction = session.beginTransaction();
-        session.remove(entity);
+        session.delete(entity);
         transaction.commit();
         return "Success";
     }

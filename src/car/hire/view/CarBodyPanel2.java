@@ -4,17 +4,31 @@
  */
 package car.hire.view;
 
+import car.hire.controller.CarController;
+import car.hire.dto.CarCategoryDto;
+import car.hire.dto.CarDto;
+import car.hire.entity.CarCategoryEntity;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author DELL i5
  */
-public class CarBodyPanel extends javax.swing.JPanel {
+public class CarBodyPanel2 extends javax.swing.JPanel {
+    CarController carController;
+    Integer carId;
 
     /**
-     * Creates new form CarBodyPanel
+     * Creates new form CarBodyPanel2
+     * @param carId
      */
-    public CarBodyPanel() {
+    public CarBodyPanel2(Integer carId) {
         initComponents();
+        this.carId = carId;
+        carController = new CarController();
+        loadCar(carId);
     }
 
     /**
@@ -26,7 +40,7 @@ public class CarBodyPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        addCarLabel = new javax.swing.JLabel();
+        updateCarLabel = new javax.swing.JLabel();
         vIdLabel = new javax.swing.JLabel();
         vNumberText = new javax.swing.JTextField();
         vNumberLabel = new javax.swing.JLabel();
@@ -36,23 +50,23 @@ public class CarBodyPanel extends javax.swing.JPanel {
         vYearLabel = new javax.swing.JLabel();
         vPricePDayText = new javax.swing.JTextField();
         vPricePDayLabel = new javax.swing.JLabel();
-        addCarButton = new javax.swing.JButton();
+        updateCarButton = new javax.swing.JButton();
         vIDText = new javax.swing.JTextField();
         vYearChooser = new com.toedter.calendar.JYearChooser();
         chassisNoLabel = new javax.swing.JLabel();
-        chassisNoText = new javax.swing.JTextField();
+        vChassisNoText = new javax.swing.JTextField();
         vCategoryIdLabel = new javax.swing.JLabel();
         vCategoryIdText = new javax.swing.JTextField();
         vModelText = new javax.swing.JTextField();
-        searchButton = new javax.swing.JButton();
-        categoryDataLabel = new javax.swing.JLabel();
+        vCategoryDataLabel = new javax.swing.JLabel();
         vColourLabel = new javax.swing.JLabel();
         vColourText = new javax.swing.JTextField();
+        searchButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
 
-        addCarLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        addCarLabel.setText("Register New Car");
+        updateCarLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        updateCarLabel.setText("Update Car");
 
         vIdLabel.setText("Vehicle ID");
         vIdLabel.setPreferredSize(new java.awt.Dimension(52, 22));
@@ -72,8 +86,15 @@ public class CarBodyPanel extends javax.swing.JPanel {
         vPricePDayLabel.setText("Price Per Day");
         vPricePDayLabel.setPreferredSize(new java.awt.Dimension(69, 22));
 
-        addCarButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        addCarButton.setText("Add Car");
+        updateCarButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        updateCarButton.setText("Update Car");
+        updateCarButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateCarButtonActionPerformed(evt);
+            }
+        });
+
+        vIDText.setEditable(false);
 
         chassisNoLabel.setText("Chassis No");
         chassisNoLabel.setPreferredSize(new java.awt.Dimension(58, 22));
@@ -81,14 +102,19 @@ public class CarBodyPanel extends javax.swing.JPanel {
         vCategoryIdLabel.setText("Category ID");
         vCategoryIdLabel.setPreferredSize(new java.awt.Dimension(62, 22));
 
-        searchButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        searchButton.setText("Search");
-        searchButton.setPreferredSize(new java.awt.Dimension(72, 22));
-
-        categoryDataLabel.setPreferredSize(new java.awt.Dimension(50, 22));
+        vCategoryDataLabel.setPreferredSize(new java.awt.Dimension(50, 22));
 
         vColourLabel.setText("Colour");
         vColourLabel.setPreferredSize(new java.awt.Dimension(69, 22));
+
+        searchButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        searchButton.setText("Search");
+        searchButton.setPreferredSize(new java.awt.Dimension(72, 22));
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -99,7 +125,7 @@ public class CarBodyPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(addCarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
+                            .addComponent(updateCarLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 632, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(vNumberLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -115,10 +141,10 @@ public class CarBodyPanel extends javax.swing.JPanel {
                                     .addComponent(vYearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(vCategoryIdText, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addGap(9, 9, 9)
                                         .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(categoryDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(vCategoryDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addComponent(vModelText, javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(vBrandText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)))
@@ -126,7 +152,7 @@ public class CarBodyPanel extends javax.swing.JPanel {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(addCarButton)
+                        .addComponent(updateCarButton)
                         .addGap(17, 17, 17))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,7 +162,7 @@ public class CarBodyPanel extends javax.swing.JPanel {
                                     .addComponent(vPricePDayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(chassisNoText, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(vChassisNoText, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(vPricePDayText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(vBrandLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
@@ -148,7 +174,7 @@ public class CarBodyPanel extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(addCarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(updateCarLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(vIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,8 +187,8 @@ public class CarBodyPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(vCategoryIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(vCategoryIdText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(categoryDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(vCategoryDataLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(vModelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -181,30 +207,38 @@ public class CarBodyPanel extends javax.swing.JPanel {
                     .addComponent(vColourLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(chassisNoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vChassisNoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chassisNoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(vPricePDayText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(vPricePDayLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addComponent(addCarButton)
+                .addComponent(updateCarButton)
                 .addGap(21, 21, 21))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void updateCarButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCarButtonActionPerformed
+        updateCar();
+    }//GEN-LAST:event_updateCarButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        searchCarCategoryDto();
+    }//GEN-LAST:event_searchButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    protected javax.swing.JButton addCarButton;
-    protected javax.swing.JLabel addCarLabel;
-    private javax.swing.JLabel categoryDataLabel;
     private javax.swing.JLabel chassisNoLabel;
-    private javax.swing.JTextField chassisNoText;
     private javax.swing.JButton searchButton;
+    private javax.swing.JButton updateCarButton;
+    private javax.swing.JLabel updateCarLabel;
     private javax.swing.JLabel vBrandLabel;
     private javax.swing.JTextField vBrandText;
+    private javax.swing.JLabel vCategoryDataLabel;
     private javax.swing.JLabel vCategoryIdLabel;
     private javax.swing.JTextField vCategoryIdText;
+    private javax.swing.JTextField vChassisNoText;
     private javax.swing.JLabel vColourLabel;
     private javax.swing.JTextField vColourText;
     private javax.swing.JTextField vIDText;
@@ -219,4 +253,61 @@ public class CarBodyPanel extends javax.swing.JPanel {
     private javax.swing.JLabel vYearLabel;
     // End of variables declaration//GEN-END:variables
 
+    private void loadCar(Integer carId) {
+        try {
+            
+            CarDto dto  = carController.getCarEntity(carId);
+            
+            vIDText.setText(dto.getVehicleId().toString());
+            vNumberText.setText(dto.getVehicleNumber());
+            vCategoryIdText.setText(dto.getCarCategoryEntity().getCategoryId().toString());
+            vModelText.setText(dto.getModel());
+            vBrandText.setText(dto.getBrand());
+            vColourText.setText(dto.getColour());
+            vChassisNoText.setText(dto.getChassisNo());
+            vPricePDayText.setText(dto.getPricePerDay().toString());
+            vYearChooser.setValue(dto.getYear());
+            
+        } catch (Exception ex) {
+            Logger.getLogger(CarBodyPanel2.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        
+    }
+
+    private void updateCar() {
+        try {
+            CarDto carDto = new CarDto(
+                    carId,
+                    vNumberText.getText(),
+                    carController.getCarCategoryEntity(carId),
+                    vModelText.getText(),
+                    vBrandText.getText(),
+                    vYearChooser.getValue(),
+                    vColourText.getText(),
+                    vChassisNoText.getText(),
+                    Double.valueOf(vPricePDayText.getText()));
+            
+            String result = carController.updateCar(carDto);
+            JOptionPane.showMessageDialog(this, result);
+            
+        } catch (Exception ex) {
+            Logger.getLogger(CarBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void searchCarCategoryDto() {
+        try {
+            CarCategoryEntity entity = carController.getCarCategoryEntity(carId);
+            if (entity==null) {
+                vCategoryDataLabel.setText("Wrong Car Category ID");
+            } else {
+                vCategoryDataLabel.setText(entity.getName());
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(CarBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    
 }
