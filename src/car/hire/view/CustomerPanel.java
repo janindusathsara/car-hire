@@ -4,19 +4,29 @@
  */
 package car.hire.view;
 
+import car.hire.controller.CustomerController;
+import car.hire.dto.CustomerDto;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author DELL i5
  */
 public class CustomerPanel extends javax.swing.JPanel {
-    
-    CustomerBodyPanel1 customerBodyPanel = new CustomerBodyPanel1();
+
+    CustomerController customerController;
 
     /**
      * Creates new form CustomerPanel
      */
     public CustomerPanel() {
         initComponents();
+        customerController = new CustomerController();
+        loadCustomerTable();
     }
 
     /**
@@ -31,7 +41,7 @@ public class CustomerPanel extends javax.swing.JPanel {
         manageCustomerLabel = new javax.swing.JLabel();
         custBodyPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        customerTable = new javax.swing.JTable();
         addCustomerButton = new javax.swing.JButton();
         updateCustomerButton = new javax.swing.JButton();
         deleteCustomerButton = new javax.swing.JButton();
@@ -45,7 +55,7 @@ public class CustomerPanel extends javax.swing.JPanel {
 
         custBodyPanel.setBackground(new java.awt.Color(204, 255, 204));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        customerTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -56,7 +66,7 @@ public class CustomerPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(customerTable);
 
         addCustomerButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         addCustomerButton.setText("Add New Customer");
@@ -84,6 +94,11 @@ public class CustomerPanel extends javax.swing.JPanel {
         });
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Customers", "Rented Customers" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout custBodyPanelLayout = new javax.swing.GroupLayout(custBodyPanel);
         custBodyPanel.setLayout(custBodyPanelLayout);
@@ -139,34 +154,143 @@ public class CustomerPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteCustomerButtonActionPerformed
-        // TODO add your handling code here:
+        deleteCustomer();
     }//GEN-LAST:event_deleteCustomerButtonActionPerformed
 
     private void addCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addCustomerButtonActionPerformed
-        loadCustomerBodyPanel();
+        loadCustomerBodyPanel1();
     }//GEN-LAST:event_addCustomerButtonActionPerformed
 
     private void updateCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCustomerButtonActionPerformed
-        loadCustomerBodyPanel();
+        Integer custId = 0;
+        try {
+            custId = getCustomerId();
+            if (custId != 0) {
+                loadCustomerBodyPanel2(custId);
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a Customer from the table before Update");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please select a Customer from the table before Update");
+        }
     }//GEN-LAST:event_updateCustomerButtonActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        loadCustomerTable();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addCustomerButton;
     private javax.swing.JPanel custBodyPanel;
+    private javax.swing.JTable customerTable;
     private javax.swing.JButton deleteCustomerButton;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel manageCustomerLabel;
     private javax.swing.JButton updateCustomerButton;
     // End of variables declaration//GEN-END:variables
 
-    private void loadCustomerBodyPanel() {
+    private void loadCustomerBodyPanel1() {
         custBodyPanel.removeAll();
+        CustomerBodyPanel1 customerBodyPanel = new CustomerBodyPanel1();
         customerBodyPanel.setSize(custBodyPanel.getWidth(), custBodyPanel.getHeight());
         custBodyPanel.add(customerBodyPanel);
         custBodyPanel.repaint();
         custBodyPanel.revalidate();
+    }
+
+    private void loadCustomerBodyPanel2(Integer custId) {
+        custBodyPanel.removeAll();
+        CustomerBodyPanel2 customerBodyPane2 = new CustomerBodyPanel2(custId);
+        customerBodyPane2.setSize(custBodyPanel.getWidth(), custBodyPanel.getHeight());
+        custBodyPanel.add(customerBodyPane2);
+        custBodyPanel.repaint();
+        custBodyPanel.revalidate();
+    }
+
+    private void loadCustomerTable() {
+        switch (jComboBox1.getSelectedIndex()) {
+
+            case 1:
+
+                String[] columns = {"ID", "Name", "Address", "NIC", "Mobile No", "DOB"};
+                DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                customerTable.setModel(dtm);
+
+                ArrayList<CustomerDto> customerDtos;
+                try {
+                    customerDtos = customerController.getRentedCustomers();
+                    for (CustomerDto customerDto : customerDtos) {
+                        Object[] rowData = {customerDto.getId(), customerDto.getTitle() + customerDto.getName(), customerDto.getAddress(), customerDto.getNic(), customerDto.getMobileNo(), customerDto.getDob()};
+                        dtm.addRow(rowData);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(CustomerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                break;
+
+            default:
+
+                String[] column = {"ID", "Name", "Address", "NIC", "Mobile No", "DOB"};
+                DefaultTableModel dtm1 = new DefaultTableModel(column, 0) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                customerTable.setModel(dtm1);
+
+                ArrayList<CustomerDto> custDtos;
+                try {
+                    custDtos = customerController.getAllCustomers();
+                    for (CustomerDto customerDto : custDtos) {
+                        Object[] rowData = {customerDto.getId(), customerDto.getTitle() + customerDto.getName(), customerDto.getAddress(), customerDto.getNic(), customerDto.getMobileNo(), customerDto.getDob()};
+                        dtm1.addRow(rowData);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(CustomerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+        }
+    }
+
+    private Integer getCustomerId() {
+        Integer custId = (Integer) customerTable.getValueAt(customerTable.getSelectedRow(), 0);
+        return custId;
+    }
+
+    private void deleteCustomer() {
+        Integer custId = 0;
+
+        try {
+
+            custId = getCustomerId();
+
+            if (custId != 0) {
+
+                try {
+                    String result = customerController.deleteCustomer(custId);
+                    JOptionPane.showMessageDialog(this, result);
+                    loadCustomerTable();
+                } catch (Exception ex) {
+                    Logger.getLogger(CustomerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(this, ex.getMessage());
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please select a Customer from the table before Delete");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please select a Customer from the table before Delete");
+        }
+
     }
 }

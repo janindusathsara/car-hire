@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/view/CarPanel.java</file>
-            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/dao/custom/impl/CarCategoryDaoImpl.java</file>
-            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/service/custom/impl/CarServiceImpl.java</file>
-            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/service/custom/CarService.java</file>
-            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/controller/CarController.java</file>
-            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/dao/custom/impl/CarDaoImpl.java</file>
-            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/dao/custom/CarDao.java</file>
+            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/view/CustomerBodyPanel2.java</file>
+            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/view/CustomerBodyPanel1.java</file>
+            <file>file:/C:/IJSE/CMJD_102/Car%20Hire/car-hire/src/car/hire/view/CustomerPanel.java</file>
         </group>
     </open-files>
 </project-private>

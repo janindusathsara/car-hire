@@ -317,7 +317,6 @@ public class CarPanel extends javax.swing.JPanel {
             if (carId != 0) {
                 try {
 
-                    //Integer carId = getCarId();
                     String result = carController.deleteCar(carId.toString());
                     JOptionPane.showMessageDialog(this, result);
                     loadCarTable();

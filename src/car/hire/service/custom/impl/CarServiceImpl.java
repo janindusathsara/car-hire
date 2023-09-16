@@ -9,10 +9,8 @@ import car.hire.dao.custom.CarDao;
 import car.hire.dto.CarDto;
 import car.hire.entity.CarCategoryEntity;
 import car.hire.entity.CarEntity;
-import car.hire.entity.RentEntity;
 import car.hire.service.custom.CarService;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
