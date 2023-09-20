@@ -8,7 +8,6 @@ import car.hire.dao.custom.CustomerDao;
 import car.hire.entity.CustomerEntity;
 import car.hire.util.SessionFactoryConfiguration;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;

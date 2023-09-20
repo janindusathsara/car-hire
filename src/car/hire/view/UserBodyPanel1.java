@@ -4,6 +4,8 @@
  */
 package car.hire.view;
 
+import car.hire.dto.UserDto;
+
 /**
  *
  * @author DELL i5
@@ -209,8 +211,21 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void loadUserBodyPanel2() {
+        
+        UserDto userDto = new UserDto(
+                Integer.parseInt(userIDText.getText()), 
+                jComboBox.getSelectedItem().toString(), 
+                nameText.getText(), 
+                addressText.getText(), 
+                nicText.getText(), 
+                dobDateChooser.getDate(), 
+                Integer.parseInt(mobileText.getText()), 
+                emailText.getText(), 
+                null, 
+                null);
+        
         uBodyPanel2.removeAll();
-        UserBodyPanel2 userBodyPanel2 = new UserBodyPanel2();
+        UserBodyPanel2 userBodyPanel2 = new UserBodyPanel2(userDto);
         userBodyPanel2.setSize(uBodyPanel2.getWidth(), uBodyPanel2.getHeight());
         uBodyPanel2.add(userBodyPanel2);
         uBodyPanel2.repaint();
