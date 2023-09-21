@@ -113,7 +113,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="nicText" min="-2" pref="180" max="-2" attributes="0"/>
                                       <Component id="mobileText" min="-2" pref="180" max="-2" attributes="0"/>
-                                      <Component id="dobDateChooser" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="dobDateChooser" alignment="0" min="-2" pref="120" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">

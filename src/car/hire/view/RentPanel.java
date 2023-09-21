@@ -4,17 +4,29 @@
  */
 package car.hire.view;
 
+import car.hire.controller.RentController;
+import car.hire.dto.RentDto;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author DELL i5
  */
 public class RentPanel extends javax.swing.JPanel {
 
+    RentController rentController;
+
     /**
      * Creates new form RentPanel
      */
     public RentPanel() {
         initComponents();
+        rentController = new RentController();
+        loadRentTable();
     }
 
     /**
@@ -31,7 +43,7 @@ public class RentPanel extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         rentTable = new javax.swing.JTable();
         jComboBox = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        placeOrderButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(204, 255, 204));
 
@@ -54,12 +66,17 @@ public class RentPanel extends javax.swing.JPanel {
         jScrollPane1.setViewportView(rentTable);
 
         jComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "All Rentals", "Overdue Rentals" }));
-
-        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jButton1.setText("Place New Rent");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jComboBoxActionPerformed(evt);
+            }
+        });
+
+        placeOrderButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        placeOrderButton.setText("Place New Rent");
+        placeOrderButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                placeOrderButtonActionPerformed(evt);
             }
         });
 
@@ -77,7 +94,7 @@ public class RentPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rBodyPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(placeOrderButton)
                 .addGap(21, 21, 21))
         );
         rBodyPanelLayout.setVerticalGroup(
@@ -88,7 +105,7 @@ public class RentPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(placeOrderButton)
                 .addGap(21, 21, 21))
         );
 
@@ -109,15 +126,19 @@ public class RentPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void placeOrderButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonActionPerformed
         loadRentBodyPanel();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_placeOrderButtonActionPerformed
+
+    private void jComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxActionPerformed
+        loadRentTable();
+    }//GEN-LAST:event_jComboBoxActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox<String> jComboBox;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton placeOrderButton;
     private javax.swing.JPanel rBodyPanel;
     private javax.swing.JLabel rentLabel;
     private javax.swing.JTable rentTable;
@@ -125,10 +146,71 @@ public class RentPanel extends javax.swing.JPanel {
 
     private void loadRentBodyPanel() {
         rBodyPanel.removeAll();
-        RentBodyPanel rentBodyPanel = new RentBodyPanel();
+        RentBodyPanel1 rentBodyPanel = new RentBodyPanel1();
         rentBodyPanel.setSize(rBodyPanel.getWidth(), rBodyPanel.getHeight());
         rBodyPanel.add(rentBodyPanel);
         rBodyPanel.repaint();
         rBodyPanel.revalidate();
+    }
+
+    private void loadRentTable() {
+        switch ((String) jComboBox.getSelectedItem()) {
+            case "Overdue Rentals":
+                String[] columns = {"ID", "Customer", "Vehicle", "From Date", "To Date"};
+                DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                rentTable.setModel(dtm);
+
+                ArrayList<RentDto> rentDtos;
+                try {
+                    rentDtos = rentController.getOverdueRentals();
+                    for (RentDto rentDto : rentDtos) {
+                        Object[] rowData = {
+                            rentDto.getRentId(), 
+                            rentDto.getCustomerEntity().getCustId() + ", " + rentDto.getCustomerEntity().getCustName() + ", " + rentDto.getCustomerEntity().getCustPhoneNo(), 
+                            rentDto.getCar().getVehicleId() + " -- " +rentDto.getCar().getVehicleNumber(), 
+                            rentDto.getFromDate(), 
+                            rentDto.getToDate()
+                        };
+                        dtm.addRow(rowData);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(CustomerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(rentLabel, ex.getMessage());
+                }
+                break;
+
+            default:
+                String[] column = {"ID", "Customer", "Vehicle", "From Date", "To Date"};
+                DefaultTableModel dtm1 = new DefaultTableModel(column, 0) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                rentTable.setModel(dtm1);
+
+                ArrayList<RentDto> rentDtos1;
+                try {
+                    rentDtos1 = rentController.getAllRentals();
+                    for (RentDto rentDto : rentDtos1) {
+                        Object[] rowData = {
+                            rentDto.getRentId(), 
+                            rentDto.getCustomerEntity().getCustId() + ", " + rentDto.getCustomerEntity().getCustName(), 
+                            rentDto.getCar().getVehicleId() + " -- " +rentDto.getCar().getVehicleNumber(), 
+                            rentDto.getFromDate(), 
+                            rentDto.getToDate()
+                        };
+                        dtm1.addRow(rowData);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(CustomerPanel.class.getName()).log(Level.SEVERE, null, ex);
+                    JOptionPane.showMessageDialog(rentLabel, ex.getMessage());
+                }
+        }
     }
 }

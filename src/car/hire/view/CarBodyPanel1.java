@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author DELL i5
  */
 public class CarBodyPanel1 extends javax.swing.JPanel {
-    
+
     CarController carController;
 
     /**
@@ -253,24 +253,23 @@ public class CarBodyPanel1 extends javax.swing.JPanel {
 
     private void searchCarCategoryDto() {
         try {
-            Integer carId  = Integer.parseInt(vCategoryIdText.getText());
+            Integer carId = Integer.parseInt(vCategoryIdText.getText());
             CarCategoryEntity entity = carController.getCarCategoryEntity(carId);
-            if (entity==null) {
+            if (entity == null) {
                 vCategoryDataLabel.setText("Wrong Car Category ID");
             } else {
                 vCategoryDataLabel.setText(entity.getName());
             }
-            
-            
+
         } catch (Exception ex) {
             Logger.getLogger(CarBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void addNewCar() {
-        
+
         try {
-            Integer carId  = Integer.parseInt(vCategoryIdText.getText());
+            Integer carId = Integer.parseInt(vCategoryIdText.getText());
             CarDto carDto = new CarDto(
                     null,
                     vNumberText.getText(),
@@ -281,7 +280,7 @@ public class CarBodyPanel1 extends javax.swing.JPanel {
                     vColourText.getText(),
                     vChassisNoText.getText(),
                     Double.valueOf(vPricePDayText.getText()));
-            
+
             String result = carController.addNewCar(carDto);
             JOptionPane.showMessageDialog(this, result);
             clearPanel();

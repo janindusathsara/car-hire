@@ -4,17 +4,33 @@
  */
 package car.hire.view;
 
+import car.hire.controller.RentController;
+import car.hire.dto.CarDto;
+import car.hire.dto.CustomerDto;
+import car.hire.dto.RentDto;
+import car.hire.entity.CarEntity;
+import car.hire.entity.CustomerEntity;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author DELL i5
  */
-public class RentBodyPanel extends javax.swing.JPanel {
+public class RentBodyPanel1 extends javax.swing.JPanel {
+
+    RentController rentController;
 
     /**
      * Creates new form RentBodyPanel
      */
-    public RentBodyPanel() {
+    public RentBodyPanel1() {
         initComponents();
+        rentController = new RentController();
     }
 
     /**
@@ -60,6 +76,11 @@ public class RentBodyPanel extends javax.swing.JPanel {
         searchCustomerButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         searchCustomerButton.setText("Search");
         searchCustomerButton.setPreferredSize(new java.awt.Dimension(75, 20));
+        searchCustomerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchCustomerButtonActionPerformed(evt);
+            }
+        });
 
         vehicleIDLabel.setText("Vehicle ID");
         vehicleIDLabel.setPreferredSize(new java.awt.Dimension(52, 22));
@@ -67,9 +88,19 @@ public class RentBodyPanel extends javax.swing.JPanel {
         searchVehicleButton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         searchVehicleButton.setText("Search");
         searchVehicleButton.setPreferredSize(new java.awt.Dimension(75, 20));
+        searchVehicleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchVehicleButtonActionPerformed(evt);
+            }
+        });
 
         rentButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         rentButton.setText("Rent");
+        rentButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rentButtonActionPerformed(evt);
+            }
+        });
 
         rentFromDateLabel.setText("Rent From Date");
         rentFromDateLabel.setPreferredSize(new java.awt.Dimension(82, 22));
@@ -189,6 +220,18 @@ public class RentBodyPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void searchCustomerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCustomerButtonActionPerformed
+        searchCustomer();
+    }//GEN-LAST:event_searchCustomerButtonActionPerformed
+
+    private void searchVehicleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchVehicleButtonActionPerformed
+        searchVehicle();
+    }//GEN-LAST:event_searchVehicleButtonActionPerformed
+
+    private void rentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rentButtonActionPerformed
+        addNewRent();
+    }//GEN-LAST:event_rentButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel advanceLabel;
@@ -212,4 +255,109 @@ public class RentBodyPanel extends javax.swing.JPanel {
     private javax.swing.JLabel vehicleIDLabel;
     private javax.swing.JTextField vehicleIDText;
     // End of variables declaration//GEN-END:variables
+
+    private void searchCustomer() {
+        try {
+            Integer custId = Integer.valueOf(custIDText.getText());
+            CustomerDto dto = rentController.searchCustomer(custId);
+            if (dto == null) {
+                custDataLabel.setText("Customer Not Found");
+            } else {
+                custDataLabel.setText(dto.getName() + ", " + dto.getNic());
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(RentBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rentButton, "Customer Not Found");
+        }
+    }
+
+    private CustomerEntity getCustomer() {
+
+        try {
+            Integer custId = Integer.valueOf(custIDText.getText());
+            CustomerEntity dto = rentController.getCustomerEntity(custId);
+            return dto;
+        } catch (Exception ex) {
+            Logger.getLogger(RentBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+
+    }
+
+    private void searchVehicle() {
+        try {
+            Integer vehicleId = Integer.valueOf(vehicleIDText.getText());
+            CarDto dto = rentController.searchVehicle(vehicleId);
+            if (dto == null) {
+                vehicleDataLabel.setText("Vehicle Not Found");
+            } else {
+                vehicleDataLabel.setText(dto.getVehicleNumber() + ", " + dto.getBrand() + ", " + dto.getModel());
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(RentBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(rentButton, "Vehicle Not Found");
+        }
+    }
+
+    private CarEntity getVehicle() {
+
+        try {
+            Integer carId = Integer.valueOf(vehicleIDText.getText());
+            CarEntity dto = rentController.getVehicleEntity(carId);
+            return dto;
+        } catch (Exception ex) {
+            Logger.getLogger(RentBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+
+    }
+
+    private void addNewRent() {
+        try {
+            RentDto dto = new RentDto(
+                    null,
+                    getCustomer(),
+                    getVehicle(),
+                    fromDateToLocalDate(rentFromDateChooser.getDate()),
+                    fromDateToLocalDate(rentToDateChooser.getDate()),
+                    Double.valueOf(perDayRentText.getText()),
+                    Double.valueOf(advanceText.getText()),
+                    Double.valueOf(keyMoneyText.getText()));
+            String result = rentController.newRent(dto);
+            JOptionPane.showMessageDialog(rentButton, result);
+            clearPanel();
+        } catch (Exception ex) {
+            Logger.getLogger(RentBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
+    public LocalDate fromDateToLocalDate(Date date) {
+        return date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    private void clearPanel() {
+        LocalDate now = LocalDate.now();
+        
+        custIDText.setText("");
+        vehicleIDText.setText("");
+        vehicleDataLabel.setText("");
+        custDataLabel.setText("");
+        perDayRentText.setText("");
+        keyMoneyText.setText("");
+        advanceText.setText("");
+        rentFromDateChooser.setDate(convertToDateUsingInstant(now));
+        rentToDateChooser.setDate(convertToDateUsingInstant(now));
+    }
+    
+    public Date convertToDateUsingInstant(LocalDate date) {
+        return java.util.Date.from(date.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
+    
 }

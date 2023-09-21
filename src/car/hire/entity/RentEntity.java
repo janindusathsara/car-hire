@@ -4,6 +4,9 @@
  */
 package car.hire.entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -76,5 +79,11 @@ public class RentEntity {
 
     @Column(name = "Is_Returned")
     private Boolean isReturned;
+    
+    @Column(name = "Bill_Date")
+    private LocalDate billDate;
+    
+    @Column(name = "Bill_Time")
+    private LocalTime billTime;
 
 }
