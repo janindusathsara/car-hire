@@ -33,8 +33,8 @@ import lombok.ToString;
 public class UserEntity {
 
     @Id
-    @Column(name = "UserID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "UserID", nullable = false, length = 5)
     private Integer userId;
 
     @Column(name = "UserTitle", nullable = false, length = 5)

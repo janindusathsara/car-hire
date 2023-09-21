@@ -7,6 +7,7 @@ package car.hire.controller;
 import car.hire.dto.CarDto;
 import car.hire.dto.CustomerDto;
 import car.hire.dto.RentDto;
+import car.hire.dto.RentReturnDto;
 import car.hire.entity.CarEntity;
 import car.hire.entity.CustomerEntity;
 import car.hire.service.ServiceFactory;
@@ -18,9 +19,9 @@ import java.util.ArrayList;
  * @author DELL i5
  */
 public class RentController {
-    
+
     RentService rentService = (RentService) ServiceFactory.getInstance().getService(ServiceFactory.ServiceType.RENT);
-            
+
     public ArrayList<RentDto> getOverdueRentals() throws Exception {
         return rentService.getOverdueRentals();
     }
@@ -48,5 +49,21 @@ public class RentController {
     public String newRent(RentDto dto) throws Exception {
         return rentService.newRent(dto);
     }
-    
+
+    public ArrayList<RentDto> getActiveRentals() throws Exception {
+        return rentService.getActiveRentals();
+    }
+
+    public ArrayList<RentDto> getOldRentals() throws Exception {
+        return rentService.getOldRentals();
+    }
+
+    public RentReturnDto getRentData(Integer rentId) throws Exception {
+        return rentService.getRentData(rentId);
+    }
+
+    public String returnCar(RentReturnDto entity) throws Exception {
+        return rentService.returnCar(entity);
+    }
+
 }

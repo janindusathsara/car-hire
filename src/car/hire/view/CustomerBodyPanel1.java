@@ -6,6 +6,7 @@ package car.hire.view;
 
 import car.hire.controller.CustomerController;
 import car.hire.dto.CustomerDto;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -208,6 +209,7 @@ public class CustomerBodyPanel1 extends javax.swing.JPanel {
         custNicText.setText("");
         custMobileText.setText("");
         jComboBox.setSelectedItem("Mr.");
+        jDateChooser.setDate(new Date());
     }
 
     private void loadCustomerPanel() {

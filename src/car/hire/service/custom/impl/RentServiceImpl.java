@@ -9,13 +9,13 @@ import car.hire.dao.custom.RentDao;
 import car.hire.dto.CarDto;
 import car.hire.dto.CustomerDto;
 import car.hire.dto.RentDto;
+import car.hire.dto.RentReturnDto;
 import car.hire.entity.CarEntity;
 import car.hire.entity.CustomerEntity;
 import car.hire.entity.RentEntity;
 import car.hire.service.custom.RentService;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Period;
 import java.time.ZoneId;
@@ -125,7 +125,7 @@ public class RentServiceImpl implements RentService {
 
         Period diff = Period.between(fromDate, toDate);
 
-        Double total = diff.getDays() * dto.getPerDayRent();
+        Double total = (diff.getDays() + 1) * dto.getPerDayRent();
         RentEntity entity = new RentEntity(
                 dto.getRentId(),
                 dto.getCustomerEntity(),
@@ -140,7 +140,8 @@ public class RentServiceImpl implements RentService {
                 1,
                 Boolean.FALSE,
                 now,
-                nowTime);
+                nowTime,
+                null);
 
         String result = rentDao.newRent(entity);
         return result;
@@ -156,6 +157,115 @@ public class RentServiceImpl implements RentService {
         return Instant.ofEpochMilli(date.getTime())
                 .atZone(ZoneId.systemDefault())
                 .toLocalDate();
+    }
+
+    @Override
+    public ArrayList<RentDto> getActiveRentals() throws Exception {
+        ArrayList<RentEntity> rentEntity = rentDao.getOverdueRentals();
+        ArrayList<RentDto> rentDtos = new ArrayList<>();
+
+        LocalDate now = LocalDate.now();
+
+        for (RentEntity entity : rentEntity) {
+            Period diff = Period.between(now, fromDateToLocalDate(entity.getToDate()));
+            Period diff2 = Period.between(fromDateToLocalDate(entity.getFromDate()), now);
+            if ((diff.getDays() > 0) & (diff2.getDays() > 0)) {
+                RentDto dto = new RentDto(
+                        entity.getRentId(),
+                        entity.getCustomerEntity(),
+                        entity.getCar(),
+                        fromDateToLocalDate(entity.getFromDate()),
+                        fromDateToLocalDate(entity.getToDate()),
+                        entity.getPerDayRent(),
+                        entity.getAdvance(),
+                        entity.getKeyMoney());
+                rentDtos.add(dto);
+            }
+
+        }
+        return rentDtos;
+    }
+
+    @Override
+    public ArrayList<RentDto> getOldRentals() throws Exception {
+        ArrayList<RentEntity> rentEntity = rentDao.getOldRentals();
+        ArrayList<RentDto> rentDtos = new ArrayList<>();
+
+        for (RentEntity entity : rentEntity) {
+
+            RentDto dto = new RentDto(
+                    entity.getRentId(),
+                    entity.getCustomerEntity(),
+                    entity.getCar(),
+                    fromDateToLocalDate(entity.getFromDate()),
+                    fromDateToLocalDate(entity.getToDate()),
+                    entity.getPerDayRent(),
+                    entity.getAdvance(),
+                    entity.getKeyMoney());
+            rentDtos.add(dto);
+        }
+
+        return rentDtos;
+    }
+
+    @Override
+    public RentReturnDto getRentData(Integer rentId) throws Exception {
+        RentEntity entity = rentDao.getRentData(rentId);
+        LocalDate fromDate = fromDateToLocalDate(entity.getFromDate());
+        LocalDate toDate = fromDateToLocalDate(entity.getToDate());
+        LocalDate now = LocalDate.now();
+
+        Period diff = Period.between(fromDate, toDate);
+        Period diff1 = Period.between(fromDate, now);
+        Period diff2 = Period.between(now, toDate);
+        Double newTotal = 0.0;
+        Double finalBalance = 0.0;
+
+        if (diff2.getDays() >= 0) {
+
+            newTotal = (diff1.getDays() + 1) * entity.getPerDayRent();
+            finalBalance = newTotal - (entity.getAdvance() + entity.getKeyMoney());
+
+        } else {
+            newTotal = (entity.getTotal()) + ((diff2.getDays() * -1) * (entity.getPerDayRent() * 1.5));
+            finalBalance = newTotal - (entity.getAdvance() + entity.getKeyMoney());
+        }
+
+        RentReturnDto dto = new RentReturnDto(
+                entity.getRentId(),
+                entity.getCustomerEntity(),
+                entity.getCar(),
+                entity.getFromDate(),
+                entity.getToDate(),
+                entity.getPerDayRent(),
+                entity.getAdvance(),
+                entity.getKeyMoney(),
+                newTotal,
+                finalBalance,
+                entity.getUserId());
+        return dto;
+    }
+
+    @Override
+    public String returnCar(RentReturnDto dto) throws Exception {
+        RentEntity entity = new RentEntity(
+                dto.getRentId(), 
+                dto.getCustomerEntity(), 
+                dto.getCar(), 
+                dto.getFromDate(), 
+                dto.getToDate(), 
+                dto.getPerDayRent(), 
+                dto.getAdvance(), 
+                dto.getKeyMoney(), 
+                dto.getTotal(), 
+                dto.getFinalBalance(), 
+                dto.getUserId(), 
+                Boolean.TRUE, 
+                rentDao.getRentData(dto.getRentId()).getBillDate(), 
+                rentDao.getRentData(dto.getRentId()).getBillTime(),
+                LocalDate.now());
+        
+        return rentDao.returnCar(entity);
     }
 
 }

@@ -5,7 +5,6 @@
 package car.hire.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
 import javax.persistence.CascadeType;
@@ -85,5 +84,8 @@ public class RentEntity {
     
     @Column(name = "Bill_Time")
     private LocalTime billTime;
+    
+    @Column(name = "Return_Date")
+    private LocalDate returnDate;
 
 }
