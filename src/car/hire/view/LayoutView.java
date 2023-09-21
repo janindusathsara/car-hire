@@ -4,17 +4,23 @@
  */
 package car.hire.view;
 
+import car.hire.CarHire;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author DELL i5
  */
 public class LayoutView extends javax.swing.JFrame {
 
+    String[] args;
     /**
      * Creates new form LayoutView
      */
-    public LayoutView() {
+    public LayoutView(String[] args) {
         initComponents();
+        this.args = args;
     }
 
     /**
@@ -70,6 +76,11 @@ public class LayoutView extends javax.swing.JFrame {
         logoutButton.setBackground(new java.awt.Color(255, 153, 153));
         logoutButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         logoutButton.setText("Logout");
+        logoutButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutButtonActionPerformed(evt);
+            }
+        });
 
         manageCategoriesButton.setBackground(new java.awt.Color(204, 255, 153));
         manageCategoriesButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -231,6 +242,10 @@ public class LayoutView extends javax.swing.JFrame {
         loadRentPanel();
     }//GEN-LAST:event_rentButtonActionPerformed
 
+    private void logoutButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutButtonActionPerformed
+        logout();
+    }//GEN-LAST:event_logoutButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -295,5 +310,14 @@ public class LayoutView extends javax.swing.JFrame {
         bodyPanel.add(rentPanel);
         bodyPanel.repaint();
         bodyPanel.revalidate();
+    }
+
+    private void logout() {
+        try {
+            this.setVisible(false);
+            CarHire.main(args);
+        } catch (Exception ex) {
+            Logger.getLogger(LayoutView.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

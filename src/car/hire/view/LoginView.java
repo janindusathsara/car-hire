@@ -4,17 +4,22 @@
  */
 package car.hire.view;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author DELL i5
  */
 public class LoginView extends javax.swing.JFrame {
 
+    String[] args;
+
     /**
      * Creates new form LoginView
      */
-    public LoginView() {
+    public LoginView(String[] args) {
         initComponents();
+        this.args = args;
     }
 
     /**
@@ -34,11 +39,11 @@ public class LoginView extends javax.swing.JFrame {
         userImageLabel2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
-        userPasswordText = new javax.swing.JTextField();
         keyImageLabel = new javax.swing.JLabel();
         userPasswordLabel = new javax.swing.JLabel();
         loginButton = new javax.swing.JButton();
         exitButton = new javax.swing.JButton();
+        passwordField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocation(new java.awt.Point(0, 0));
@@ -67,11 +72,6 @@ public class LoginView extends javax.swing.JFrame {
 
         jSeparator2.setForeground(new java.awt.Color(102, 102, 102));
 
-        userPasswordText.setBackground(new java.awt.Color(153, 204, 255));
-        userPasswordText.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        userPasswordText.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        userPasswordText.setBorder(null);
-
         keyImageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/car/hire/view/images/key-24.png"))); // NOI18N
 
         userPasswordLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -81,6 +81,11 @@ public class LoginView extends javax.swing.JFrame {
         loginButton.setBackground(new java.awt.Color(0, 51, 255));
         loginButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         loginButton.setText("Login");
+        loginButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                loginButtonActionPerformed(evt);
+            }
+        });
 
         exitButton.setBackground(new java.awt.Color(102, 102, 255));
         exitButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -91,6 +96,11 @@ public class LoginView extends javax.swing.JFrame {
             }
         });
 
+        passwordField.setBackground(new java.awt.Color(153, 204, 255));
+        passwordField.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        passwordField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        passwordField.setBorder(null);
+
         javax.swing.GroupLayout jPanelLayout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanelLayout);
         jPanelLayout.setHorizontalGroup(
@@ -100,10 +110,10 @@ public class LoginView extends javax.swing.JFrame {
             .addGroup(jPanelLayout.createSequentialGroup()
                 .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelLayout.createSequentialGroup()
+                        .addGap(117, 117, 117)
                         .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanelLayout.createSequentialGroup()
-                                .addGap(117, 117, 117)
                                 .addComponent(userImageLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(userNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -115,10 +125,10 @@ public class LoginView extends javax.swing.JFrame {
             .addGroup(jPanelLayout.createSequentialGroup()
                 .addGap(112, 112, 112)
                 .addComponent(keyImageLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSeparator2)
-                    .addComponent(userPasswordText, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -150,9 +160,9 @@ public class LoginView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(userPasswordLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userPasswordText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(keyImageLabel))
+                .addGroup(jPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(keyImageLabel)
+                    .addComponent(passwordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
@@ -180,6 +190,10 @@ public class LoginView extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_exitButtonActionPerformed
 
+    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+        login();
+    }//GEN-LAST:event_loginButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton exitButton;
     private javax.swing.JPanel jPanel;
@@ -188,11 +202,32 @@ public class LoginView extends javax.swing.JFrame {
     private javax.swing.JLabel keyImageLabel;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel loginLabel;
+    private javax.swing.JPasswordField passwordField;
     private javax.swing.JLabel userImageLabel1;
     private javax.swing.JLabel userImageLabel2;
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameText;
     private javax.swing.JLabel userPasswordLabel;
-    private javax.swing.JTextField userPasswordText;
     // End of variables declaration//GEN-END:variables
+
+    private void login() {
+        String userName = userNameText.getText();
+        String password = passwordField.getText();
+
+        if (!userName.equals("")) {
+
+            if (!password.equals("")) {
+
+                this.setVisible(false);
+                LayoutView layoutView = new LayoutView(args);
+                layoutView.setLocationRelativeTo(null);
+                layoutView.setVisible(true);
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Enter Password");
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Enter User Name");
+        }
+    }
 }

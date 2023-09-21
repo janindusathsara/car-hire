@@ -4,10 +4,7 @@
  */
 package car.hire;
 
-import car.hire.util.SessionFactoryConfiguration;
-import car.hire.view.LayoutView;
 import car.hire.view.LoginView;
-import org.hibernate.Session;
 
 /**
  *
@@ -19,12 +16,11 @@ public class CarHire {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception{
-//        LoginView l1 = new LoginView();
-//        l1.setLocationRelativeTo(null);
-//        l1.setVisible(true);
+        LoginView l1 = new LoginView(args);
+        l1.setLocationRelativeTo(null);
+        l1.setVisible(true);
 
-        new LayoutView().setVisible(true);
-//        Session session = SessionFactoryConfiguration.getInstance().getSession();
+        //new LayoutView().setVisible(true);
     }
 
 }
