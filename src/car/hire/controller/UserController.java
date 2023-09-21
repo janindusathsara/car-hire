@@ -28,5 +28,17 @@ public class UserController {
         return userService.deleteUser(userId);
     }
 
+    public Boolean checkOldPassword(UserDto userDto) throws Exception {
+        return userService.checkOldPassword(userDto);
+    }
+
+    public String updateUser(UserDto userDto) throws Exception {
+        return userService.updateUser(userDto);
+    }
+
+    public UserDto getUserData(Integer userId) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 
 }

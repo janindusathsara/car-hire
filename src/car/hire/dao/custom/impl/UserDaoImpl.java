@@ -17,16 +17,20 @@ import org.hibernate.query.Query;
  *
  * @author DELL i5
  */
-public class UserDaoImpl implements UserDao{
+public class UserDaoImpl implements UserDao {
+
     Session session = SessionFactoryConfiguration.getInstance().getSession();
 
     @Override
     public ArrayList<UserEntity> getAllUsers() throws Exception {
         Transaction transaction = session.beginTransaction();
         String sql = "SELECT * FROM user";
-        Query query = session.createSQLQuery(sql);
-        
+        Query query = session.createSQLQuery(sql);        
         List<UserEntity> arrayList = query.getResultList();
+
+//        String hql = "FROM UserEntity";
+//        Query query = session.createQuery(hql);
+//        List<UserEntity> arrayList = query.list();
         transaction.commit();
         return (ArrayList<UserEntity>) arrayList;
     }
@@ -46,10 +50,16 @@ public class UserDaoImpl implements UserDao{
         query.setParameter(8, userEntity.getUPhoneNo());
         query.setParameter(9, userEntity.getUserName());
         query.setParameter(10, userEntity.getPassword());
-        query.executeUpdate();
-        
-        transaction.commit();
-        return "Success";
+        int i = query.executeUpdate();
+
+        if (i >= 0) {
+            transaction.commit();
+            return "Success";
+        } else {
+            transaction.rollback();
+            return "Fail";
+        }
+
     }
 
     @Override
@@ -58,10 +68,41 @@ public class UserDaoImpl implements UserDao{
         String sql = "DELETE user SET WHERE UserID = ?";
         Query query = session.createSQLQuery(sql);
         query.setParameter(1, userId);
-        query.executeUpdate();
-        
+        int i = query.executeUpdate();
+
+        if (i >= 0) {
+            transaction.commit();
+            return "Success";
+        } else {
+            transaction.rollback();
+            return "Fail";
+        }
+    }
+
+    @Override
+    public Boolean checkOldPassword(UserEntity userEntity) throws Exception {
+        Transaction transaction = session.beginTransaction();
+        String sql = "SELECT * FROM user WHERE (UserID = ?) AND (Password = ?)";
+        Query query = session.createSQLQuery(sql);
+        query.setParameter(1, userEntity.getUserId());
+        query.setParameter(2, userEntity.getPassword());
+        int i = query.executeUpdate();
+
+        if (i >= 0) {
+            transaction.commit();
+            return true;
+        } else {
+            transaction.rollback();
+            return false;
+        }
+    }
+
+    @Override
+    public String updateUser(UserEntity userEntity) throws Exception {
+        Transaction transaction = session.beginTransaction();
+        session.update(userEntity);
         transaction.commit();
         return "Success";
     }
-    
+
 }

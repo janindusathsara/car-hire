@@ -18,7 +18,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class UserPanel extends javax.swing.JPanel {
 
-    UserBodyPanel1 userBodyPanel1 = new UserBodyPanel1();
     UserController userController;
 
     /**
@@ -154,9 +153,7 @@ public class UserPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        userBodyPanel1.addUserLabel.setText("Update User");
-        userBodyPanel1.addNewUserButton.setText("Update User");
-        loadUserBodyPanel1();
+        loadUserBodyPanel3();
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void userTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userTableMouseClicked
@@ -176,6 +173,7 @@ public class UserPanel extends javax.swing.JPanel {
 
     private void loadUserBodyPanel1() {
         uBodyPanel.removeAll();
+        UserBodyPanel1 userBodyPanel1 = new UserBodyPanel1();
         userBodyPanel1.setSize(uBodyPanel.getWidth(), uBodyPanel.getHeight());
         uBodyPanel.add(userBodyPanel1);
         uBodyPanel.repaint();
@@ -213,13 +211,22 @@ public class UserPanel extends javax.swing.JPanel {
     private void deleteUser() {
         try {
             Integer userId = getUserId();
-            
+
             String result = userController.deleteUser(userId);
             JOptionPane.showMessageDialog(this, result);
         } catch (Exception ex) {
             Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
+    }
+
+    private void loadUserBodyPanel3() {
+        uBodyPanel.removeAll();
+        UserBodyPanel3 userBodyPanel3 = new UserBodyPanel3(getUserId());
+        userBodyPanel3.setSize(uBodyPanel.getWidth(), uBodyPanel.getHeight());
+        uBodyPanel.add(userBodyPanel3);
+        uBodyPanel.repaint();
+        uBodyPanel.revalidate();
     }
 
 }

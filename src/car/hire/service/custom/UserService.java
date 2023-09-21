@@ -20,4 +20,8 @@ public interface UserService extends SuperService {
 
     public String deleteUser(Integer userId) throws Exception;
 
+    public Boolean checkOldPassword(UserDto userDto) throws Exception;
+
+    public String updateUser(UserDto userDto) throws Exception;
+
 }

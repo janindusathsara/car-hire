@@ -63,4 +63,38 @@ public class UserServiceImpl implements UserService {
         return userDao.deleteUser(userId);
     }
 
+    @Override
+    public Boolean checkOldPassword(UserDto dto) throws Exception {
+        UserEntity userEntity = new UserEntity(
+                dto.getUserID(),
+                dto.getTitle(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getNic(),
+                dto.getEmail(),
+                dto.getDob(),
+                dto.getMobile(),
+                dto.getUserName(),
+                dto.getUserPassword());
+
+        return userDao.checkOldPassword(userEntity);
+    }
+
+    @Override
+    public String updateUser(UserDto dto) throws Exception {
+        UserEntity userEntity = new UserEntity(
+                dto.getUserID(),
+                dto.getTitle(),
+                dto.getName(),
+                dto.getAddress(),
+                dto.getNic(),
+                dto.getEmail(),
+                dto.getDob(),
+                dto.getMobile(),
+                dto.getUserName(),
+                dto.getUserPassword());
+
+        return userDao.updateUser(userEntity);
+    }
+
 }

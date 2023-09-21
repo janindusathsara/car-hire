@@ -19,5 +19,9 @@ public interface UserDao extends SuperDao{
     public String registerNewUser(UserEntity userEntity) throws Exception;
 
     public String deleteUser(Integer userId) throws Exception;
+
+    public Boolean checkOldPassword(UserEntity userEntity) throws Exception;
+
+    public String updateUser(UserEntity userEntity) throws Exception;
     
 }

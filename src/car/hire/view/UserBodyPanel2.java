@@ -130,6 +130,7 @@ public class UserBodyPanel2 extends javax.swing.JPanel {
             try {
                 userDto.setUserName(userNameText.getText());
                 userDto.setUserPassword(passwordField.getText());
+                System.out.println(userDto);
 
                 String result = userController.registerNewUser(userDto);
                 JOptionPane.showMessageDialog(this, result);

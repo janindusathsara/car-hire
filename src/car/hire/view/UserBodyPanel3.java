@@ -4,19 +4,29 @@
  */
 package car.hire.view;
 
+import car.hire.controller.UserController;
 import car.hire.dto.UserDto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author DELL i5
  */
-public class UserBodyPanel1 extends javax.swing.JPanel {
+public class UserBodyPanel3 extends javax.swing.JPanel {
+    Integer userId;
+    UserController userController;
 
     /**
      * Creates new form userBodyPanel
+     * @param userId
      */
-    public UserBodyPanel1() {
+    public UserBodyPanel3(Integer userId) {
         initComponents();
+        this.userId = userId;
+        userController = new UserController();
+        loadUserData();
     }
 
     /**
@@ -28,10 +38,9 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
         addUserLabel = new javax.swing.JLabel();
         uBodyPanel2 = new javax.swing.JPanel();
-        addNewUserButton = new javax.swing.JButton();
+        updateButton = new javax.swing.JButton();
         dobLabel = new javax.swing.JLabel();
         mobileText = new javax.swing.JTextField();
         mobileLabel = new javax.swing.JLabel();
@@ -48,21 +57,19 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
         userIDText = new javax.swing.JTextField();
         dobDateChooser = new com.toedter.calendar.JDateChooser();
 
-        jLabel1.setText("jLabel1");
-
         setBackground(new java.awt.Color(153, 255, 204));
 
         addUserLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         addUserLabel.setForeground(new java.awt.Color(51, 51, 51));
-        addUserLabel.setText("Add New User");
+        addUserLabel.setText("Update User");
 
         uBodyPanel2.setBackground(new java.awt.Color(153, 255, 204));
 
-        addNewUserButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        addNewUserButton.setText("Add New User");
-        addNewUserButton.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addNewUserButtonActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
 
@@ -82,16 +89,13 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
 
         userIDLabel.setText("User ID");
 
+        userIDText.setEditable(false);
         userIDText.setToolTipText("");
 
         javax.swing.GroupLayout uBodyPanel2Layout = new javax.swing.GroupLayout(uBodyPanel2);
         uBodyPanel2.setLayout(uBodyPanel2Layout);
         uBodyPanel2Layout.setHorizontalGroup(
             uBodyPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, uBodyPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addNewUserButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
             .addGroup(uBodyPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(uBodyPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -127,6 +131,10 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(emailText, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, uBodyPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(updateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         uBodyPanel2Layout.setVerticalGroup(
             uBodyPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,7 +169,7 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
                     .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(emailText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(addNewUserButton)
+                .addComponent(updateButton)
                 .addGap(23, 23, 23))
         );
 
@@ -185,13 +193,12 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addNewUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewUserButtonActionPerformed
-        loadUserBodyPanel2();
-    }//GEN-LAST:event_addNewUserButtonActionPerformed
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        loadUserBodyPanel4();
+    }//GEN-LAST:event_updateButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addNewUserButton;
     private javax.swing.JLabel addUserLabel;
     private javax.swing.JLabel addressLabel;
     private javax.swing.JTextField addressText;
@@ -200,7 +207,6 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
     private javax.swing.JLabel emailLabel;
     private javax.swing.JTextField emailText;
     private javax.swing.JComboBox<String> jComboBox;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel mobileLabel;
     private javax.swing.JTextField mobileText;
     private javax.swing.JLabel nameLabel;
@@ -208,12 +214,12 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
     private javax.swing.JLabel nicLabel;
     private javax.swing.JTextField nicText;
     private javax.swing.JPanel uBodyPanel2;
+    private javax.swing.JButton updateButton;
     private javax.swing.JLabel userIDLabel;
     private javax.swing.JTextField userIDText;
     // End of variables declaration//GEN-END:variables
 
-    private void loadUserBodyPanel2() {
-        
+    private void loadUserBodyPanel4() {
         UserDto userDto = new UserDto(
                 Integer.valueOf(userIDText.getText()), 
                 jComboBox.getSelectedItem().toString(), 
@@ -227,11 +233,35 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
                 null);
         
         uBodyPanel2.removeAll();
-        UserBodyPanel2 userBodyPanel2 = new UserBodyPanel2(userDto);
-        userBodyPanel2.setSize(uBodyPanel2.getWidth(), uBodyPanel2.getHeight());
-        uBodyPanel2.add(userBodyPanel2);
+        UserBodyPanel4 userBodyPanel4 = new UserBodyPanel4(userDto);
+        userBodyPanel4.setSize(uBodyPanel2.getWidth(), uBodyPanel2.getHeight());
+        uBodyPanel2.add(userBodyPanel4);
         uBodyPanel2.repaint();
         uBodyPanel2.revalidate();
+    }
+
+    private void loadUserData() {
+        try {
+            UserDto dto = userController.getUserData(userId);
+            
+            if (dto != null) {
+                userIDText.setText(dto.getUserID().toString());
+                nameText.setText(dto.getName());
+                addressText.setText(dto.getAddress());
+                nicText.setText(dto.getNic());
+                jComboBox.setSelectedItem(dto.getTitle());
+                dobDateChooser.setDate(dto.getDob());
+                mobileText.setText(dto.getMobile().toString());
+                emailText.setText(dto.getEmail());
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "User not Found");
+            }
+            
+        } catch (Exception ex) {
+            Logger.getLogger(UserBodyPanel3.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }
 
     
