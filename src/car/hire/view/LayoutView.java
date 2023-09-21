@@ -17,6 +17,7 @@ public class LayoutView extends javax.swing.JFrame {
     String[] args;
     /**
      * Creates new form LayoutView
+     * @param args
      */
     public LayoutView(String[] args) {
         initComponents();
@@ -293,10 +294,10 @@ public class LayoutView extends javax.swing.JFrame {
         bodyPanel.repaint();
         bodyPanel.revalidate();
     }
-
+    
     private void loadCustomerPanel() {
         bodyPanel.removeAll();
-        CustomerPanel customerPanel = new CustomerPanel();
+        CustomerPanel customerPanel = new CustomerPanel(args);
         customerPanel.setSize(bodyPanel.getWidth(), bodyPanel.getHeight());
         bodyPanel.add(customerPanel);
         bodyPanel.repaint();
@@ -305,7 +306,7 @@ public class LayoutView extends javax.swing.JFrame {
 
     private void loadRentPanel() {
         bodyPanel.removeAll();
-        RentPanel rentPanel = new RentPanel();
+        RentPanel rentPanel = new RentPanel(args);
         rentPanel.setSize(bodyPanel.getWidth(), bodyPanel.getHeight());
         bodyPanel.add(rentPanel);
         bodyPanel.repaint();

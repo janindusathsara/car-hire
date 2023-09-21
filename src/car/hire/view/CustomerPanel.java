@@ -23,7 +23,7 @@ public class CustomerPanel extends javax.swing.JPanel {
     /**
      * Creates new form CustomerPanel
      */
-    public CustomerPanel() {
+    public CustomerPanel(String[] args) {
         initComponents();
         customerController = new CustomerController();
         loadCustomerTable();

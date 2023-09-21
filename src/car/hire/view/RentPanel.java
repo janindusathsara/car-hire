@@ -23,7 +23,7 @@ public class RentPanel extends javax.swing.JPanel {
     /**
      * Creates new form RentPanel
      */
-    public RentPanel() {
+    public RentPanel(String[] args) {
         initComponents();
         rentController = new RentController();
         loadRentTable();
