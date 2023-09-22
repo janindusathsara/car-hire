@@ -4,19 +4,29 @@
  */
 package car.hire.view;
 
+import car.hire.controller.UserController;
+import car.hire.dto.UserDto;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author DELL i5
  */
 public class UserPanel extends javax.swing.JPanel {
-    
-    UserBodyPanel1 userBodyPanel1 = new UserBodyPanel1();
-    
+
+    UserController userController;
+
     /**
      * Creates new form UserPanel
      */
     public UserPanel() {
         initComponents();
+        userController = new UserController();
+        loadUserTable();
     }
 
     /**
@@ -54,6 +64,11 @@ public class UserPanel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        userTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                userTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(userTable);
 
         addButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -130,7 +145,7 @@ public class UserPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        // TODO add your handling code here:
+        deleteUser();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -138,10 +153,12 @@ public class UserPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        userBodyPanel1.addUserLabel.setText("Update User");
-        userBodyPanel1.addNewUserButton.setText("Update User");
-        loadUserBodyPanel1();
+        loadUserBodyPanel3();
     }//GEN-LAST:event_updateButtonActionPerformed
+
+    private void userTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_userTableMouseClicked
+        Integer userId = getUserId();
+    }//GEN-LAST:event_userTableMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -156,11 +173,80 @@ public class UserPanel extends javax.swing.JPanel {
 
     private void loadUserBodyPanel1() {
         uBodyPanel.removeAll();
+        UserBodyPanel1 userBodyPanel1 = new UserBodyPanel1();
         userBodyPanel1.setSize(uBodyPanel.getWidth(), uBodyPanel.getHeight());
         uBodyPanel.add(userBodyPanel1);
         uBodyPanel.repaint();
         uBodyPanel.revalidate();
     }
-    
-    
+
+    private void loadUserTable() {
+        try {
+            String[] columns = {"ID", "Name", "Address", "NIC", "Mobile", "User Name"};
+            DefaultTableModel dtm = new DefaultTableModel(columns, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            userTable.setModel(dtm);
+
+            ArrayList<UserDto> userDtos = userController.getAllUsers();
+
+            for (UserDto userDto : userDtos) {
+                Object[] rawdata = {userDto.getUserID(), userDto.getTitle() + " " + userDto.getName(), userDto.getAddress(), userDto.getNic(), userDto.getMobile(), userDto.getUserName()};
+                dtm.addRow(rawdata);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ManageCategoriesPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
+    private Integer getUserId() {
+        Integer userId = (Integer) userTable.getValueAt(userTable.getSelectedRow(), 0);
+        return userId;
+    }
+
+    private void deleteUser() {
+        Integer userId = 0;
+        try {
+            userId = getUserId();
+
+            if (userId != 0) {
+                String result = userController.deleteUser(userId);
+                JOptionPane.showMessageDialog(this, result);
+                loadUserTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "User Not Found");
+            }
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Please select a User from the table before delete");
+        }
+    }
+
+    private void loadUserBodyPanel3() {
+        Integer userId = 0;
+
+        try {
+            userId = getUserId();
+
+            if (userId != 0) {
+                uBodyPanel.removeAll();
+                UserBodyPanel3 userBodyPanel3 = new UserBodyPanel3(getUserId());
+                userBodyPanel3.setSize(uBodyPanel.getWidth(), uBodyPanel.getHeight());
+                uBodyPanel.add(userBodyPanel3);
+                uBodyPanel.repaint();
+                uBodyPanel.revalidate();
+            } else {
+                JOptionPane.showMessageDialog(this, "User Not Found");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please select a User from the table before update");
+        }
+
+    }
+
 }

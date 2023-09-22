@@ -45,6 +45,9 @@ public class UserEntity {
 
     @Column(name = "Address", nullable = false, length = 255)
     private String uAddress;
+    
+    @Column(name = "NIC", nullable = false)
+    private String uNic;
 
     @Column(name = "E-mail", nullable = false, length = 255)
     private String email;

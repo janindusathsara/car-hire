@@ -4,17 +4,28 @@
  */
 package car.hire.view;
 
+import car.hire.controller.UserController;
+import car.hire.dto.UserDto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author DELL i5
  */
 public class UserBodyPanel2 extends javax.swing.JPanel {
 
+    UserDto userDto;
+    UserController userController;
+
     /**
      * Creates new form userBodyPanel2
      */
-    public UserBodyPanel2() {
+    public UserBodyPanel2(UserDto userDto) {
         initComponents();
+        this.userDto = userDto;
+        userController = new UserController();
     }
 
     /**
@@ -47,6 +58,11 @@ public class UserBodyPanel2 extends javax.swing.JPanel {
 
         addUserButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         addUserButton.setText("Add User");
+        addUserButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addUserButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -92,6 +108,10 @@ public class UserBodyPanel2 extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void addUserButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserButtonActionPerformed
+        registerNewUser();
+    }//GEN-LAST:event_addUserButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addUserButton;
@@ -102,4 +122,27 @@ public class UserBodyPanel2 extends javax.swing.JPanel {
     private javax.swing.JLabel userNameLabel;
     private javax.swing.JTextField userNameText;
     // End of variables declaration//GEN-END:variables
+
+    private void registerNewUser() {
+
+        if (passwordField.getText().equals(conformPasswordField1.getText())) {
+
+            try {
+                userDto.setUserName(userNameText.getText());
+                userDto.setUserPassword(passwordField.getText());
+                System.out.println(userDto);
+
+                String result = userController.registerNewUser(userDto);
+                JOptionPane.showMessageDialog(this, result);
+            } catch (Exception ex) {
+                Logger.getLogger(UserBodyPanel2.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Incorrect Password");
+            conformPasswordField1.setText("");
+        }
+
+    }
 }
