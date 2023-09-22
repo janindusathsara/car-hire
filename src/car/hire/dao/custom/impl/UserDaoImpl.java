@@ -8,6 +8,7 @@ import car.hire.dao.custom.UserDao;
 import car.hire.entity.UserEntity;
 import car.hire.util.SessionFactoryConfiguration;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -22,17 +23,13 @@ public class UserDaoImpl implements UserDao {
     Session session = SessionFactoryConfiguration.getInstance().getSession();
 
     @Override
-    public ArrayList<UserEntity> getAllUsers() throws Exception {
+    public ArrayList<Object[]> getAllUsers() throws Exception {
         Transaction transaction = session.beginTransaction();
         String sql = "SELECT * FROM user";
-        Query query = session.createSQLQuery(sql);        
-        List<UserEntity> arrayList = query.getResultList();
-
-//        String hql = "FROM UserEntity";
-//        Query query = session.createQuery(hql);
-//        List<UserEntity> arrayList = query.list();
+        Query query = session.createSQLQuery(sql);
+        List<Object[]> arrayList = query.getResultList();
         transaction.commit();
-        return (ArrayList<UserEntity>) arrayList;
+        return (ArrayList<Object[]>) arrayList;
     }
 
     @Override
@@ -65,7 +62,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public String deleteUser(Integer userId) throws Exception {
         Transaction transaction = session.beginTransaction();
-        String sql = "DELETE user SET WHERE UserID = ?";
+        String sql = "DELETE FROM user WHERE UserID = ?";
         Query query = session.createSQLQuery(sql);
         query.setParameter(1, userId);
         int i = query.executeUpdate();
@@ -82,13 +79,15 @@ public class UserDaoImpl implements UserDao {
     @Override
     public Boolean checkOldPassword(UserEntity userEntity) throws Exception {
         Transaction transaction = session.beginTransaction();
-        String sql = "SELECT * FROM user WHERE (UserID = ?) AND (Password = ?)";
+        String sql = "SELECT * FROM user WHERE (UserID = ?) AND (Password = ?) AND (UserName = ?)";
         Query query = session.createSQLQuery(sql);
         query.setParameter(1, userEntity.getUserId());
         query.setParameter(2, userEntity.getPassword());
-        int i = query.executeUpdate();
+        query.setParameter(3, userEntity.getUserName());
 
-        if (i >= 0) {
+        List<UserEntity> entitys = query.list();
+
+        if (!entitys.isEmpty()) {
             transaction.commit();
             return true;
         } else {
@@ -100,9 +99,52 @@ public class UserDaoImpl implements UserDao {
     @Override
     public String updateUser(UserEntity userEntity) throws Exception {
         Transaction transaction = session.beginTransaction();
-        session.update(userEntity);
+        String sql = "UPDATE user SET UserTitle=?, Name=?, Address=?, NIC=?, `E-mail`=?, DOB=?, Phone_No=?, UserName=?, Password=? WHERE UserID=?";
+        Query query = session.createSQLQuery(sql);
+        query.setParameter(1, userEntity.getUTitle());
+        query.setParameter(2, userEntity.getUname());
+        query.setParameter(3, userEntity.getUAddress());
+        query.setParameter(4, userEntity.getUNic());
+        query.setParameter(5, userEntity.getEmail());
+        query.setParameter(6, userEntity.getDob());
+        query.setParameter(7, userEntity.getUPhoneNo());
+        query.setParameter(8, userEntity.getUserName());
+        query.setParameter(9, userEntity.getPassword());
+        query.setParameter(10, userEntity.getUserId());
+
+        int i = query.executeUpdate();
+
+        if (i >= 0) {
+            transaction.commit();
+            return "Success";
+        } else {
+            transaction.rollback();
+            return "Fail";
+        }
+    }
+
+    @Override
+    public UserEntity getUserData(Integer userId) throws Exception {
+        Transaction transaction = session.beginTransaction();
+        String hql = "SELECT * FROM user WHERE UserID = " + userId;
+        Query query = session.createSQLQuery(hql);
+        List<Object[]> rows = query.list();
         transaction.commit();
-        return "Success";
+        for (Object[] row : rows) {
+            UserEntity entity = new UserEntity(
+                    (Integer) row[0],
+                    (String) row[1],
+                    (String) row[2],
+                    (String) row[3],
+                    (String) row[4],
+                    (String) row[5],
+                    (Date) row[6],
+                    (Integer) row[7],
+                    (String) row[8],
+                    (String) row[9]);
+            return entity;
+        }
+        return null;
     }
 
 }

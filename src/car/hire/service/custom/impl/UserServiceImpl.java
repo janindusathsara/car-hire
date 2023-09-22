@@ -10,6 +10,7 @@ import car.hire.dto.UserDto;
 import car.hire.entity.UserEntity;
 import car.hire.service.custom.UserService;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
@@ -22,20 +23,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public ArrayList<UserDto> getAllUsers() throws Exception {
         ArrayList<UserDto> dtos = new ArrayList<>();
-        ArrayList<UserEntity> entity = userDao.getAllUsers();
-
-        for (UserEntity userEntity : entity) {
+        ArrayList<Object[]> data = userDao.getAllUsers();
+        
+        for (Object[] dataOb : data) {
             UserDto ud = new UserDto(
-                    userEntity.getUserId(),
-                    userEntity.getUTitle(),
-                    userEntity.getUname(),
-                    userEntity.getUAddress(),
-                    userEntity.getUNic(),
-                    userEntity.getDob(),
-                    userEntity.getUPhoneNo(),
-                    userEntity.getEmail(),
-                    userEntity.getUserName(),
-                    userEntity.getPassword());
+                    (Integer) dataOb[0],
+                    (String) dataOb[1],
+                    (String) dataOb[2],
+                    (String) dataOb[3],
+                    (String) dataOb[4],
+                    ((Date)dataOb[6]),
+                    (Integer) dataOb[7],
+                    (String) dataOb[5],
+                    (String) dataOb[8],
+                    (String) dataOb[9]);
             dtos.add(ud);
         }
         return dtos;
@@ -95,6 +96,23 @@ public class UserServiceImpl implements UserService {
                 dto.getUserPassword());
 
         return userDao.updateUser(userEntity);
+    }
+
+    @Override
+    public UserDto getUserData(Integer userId) throws Exception {
+        UserEntity entity = userDao.getUserData(userId);
+        UserDto dto = new UserDto(
+                entity.getUserId(), 
+                entity.getUTitle(), 
+                entity.getUname(), 
+                entity.getUAddress(), 
+                entity.getUNic(), 
+                entity.getDob(), 
+                entity.getUPhoneNo(), 
+                entity.getEmail(), 
+                entity.getUserName(), 
+                entity.getPassword());
+        return dto;
     }
 
 }

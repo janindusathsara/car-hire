@@ -209,24 +209,44 @@ public class UserPanel extends javax.swing.JPanel {
     }
 
     private void deleteUser() {
+        Integer userId = 0;
         try {
-            Integer userId = getUserId();
+            userId = getUserId();
 
-            String result = userController.deleteUser(userId);
-            JOptionPane.showMessageDialog(this, result);
+            if (userId != 0) {
+                String result = userController.deleteUser(userId);
+                JOptionPane.showMessageDialog(this, result);
+                loadUserTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "User Not Found");
+            }
+
         } catch (Exception ex) {
-            Logger.getLogger(UserPanel.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+            JOptionPane.showMessageDialog(this, "Please select a User from the table before delete");
         }
     }
 
     private void loadUserBodyPanel3() {
-        uBodyPanel.removeAll();
-        UserBodyPanel3 userBodyPanel3 = new UserBodyPanel3(getUserId());
-        userBodyPanel3.setSize(uBodyPanel.getWidth(), uBodyPanel.getHeight());
-        uBodyPanel.add(userBodyPanel3);
-        uBodyPanel.repaint();
-        uBodyPanel.revalidate();
+        Integer userId = 0;
+
+        try {
+            userId = getUserId();
+
+            if (userId != 0) {
+                uBodyPanel.removeAll();
+                UserBodyPanel3 userBodyPanel3 = new UserBodyPanel3(getUserId());
+                userBodyPanel3.setSize(uBodyPanel.getWidth(), uBodyPanel.getHeight());
+                uBodyPanel.add(userBodyPanel3);
+                uBodyPanel.repaint();
+                uBodyPanel.revalidate();
+            } else {
+                JOptionPane.showMessageDialog(this, "User Not Found");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please select a User from the table before update");
+        }
+
     }
 
 }

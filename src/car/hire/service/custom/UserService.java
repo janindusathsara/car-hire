@@ -24,4 +24,6 @@ public interface UserService extends SuperService {
 
     public String updateUser(UserDto userDto) throws Exception;
 
+    public UserDto getUserData(Integer userId) throws Exception;
+
 }

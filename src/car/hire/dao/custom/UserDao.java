@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public interface UserDao extends SuperDao{
 
-    public ArrayList<UserEntity> getAllUsers() throws Exception;
+    public ArrayList<Object[]> getAllUsers() throws Exception;
 
     public String registerNewUser(UserEntity userEntity) throws Exception;
 
@@ -23,5 +23,7 @@ public interface UserDao extends SuperDao{
     public Boolean checkOldPassword(UserEntity userEntity) throws Exception;
 
     public String updateUser(UserEntity userEntity) throws Exception;
+
+    public UserEntity getUserData(Integer userId) throws Exception;
     
 }

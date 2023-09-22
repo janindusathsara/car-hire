@@ -15,11 +15,13 @@ import javax.swing.JOptionPane;
  * @author DELL i5
  */
 public class UserBodyPanel3 extends javax.swing.JPanel {
+
     Integer userId;
     UserController userController;
 
     /**
      * Creates new form userBodyPanel
+     *
      * @param userId
      */
     public UserBodyPanel3(Integer userId) {
@@ -91,6 +93,8 @@ public class UserBodyPanel3 extends javax.swing.JPanel {
 
         userIDText.setEditable(false);
         userIDText.setToolTipText("");
+
+        dobDateChooser.setDateFormatString("yyyy-MM-dd");
 
         javax.swing.GroupLayout uBodyPanel2Layout = new javax.swing.GroupLayout(uBodyPanel2);
         uBodyPanel2.setLayout(uBodyPanel2Layout);
@@ -221,17 +225,17 @@ public class UserBodyPanel3 extends javax.swing.JPanel {
 
     private void loadUserBodyPanel4() {
         UserDto userDto = new UserDto(
-                Integer.valueOf(userIDText.getText()), 
-                jComboBox.getSelectedItem().toString(), 
-                nameText.getText(), 
-                addressText.getText(), 
-                nicText.getText(), 
-                dobDateChooser.getDate(), 
-                Integer.valueOf(mobileText.getText()), 
-                emailText.getText(), 
-                null, 
+                Integer.valueOf(userIDText.getText()),
+                jComboBox.getSelectedItem().toString(),
+                nameText.getText(),
+                addressText.getText(),
+                nicText.getText(),
+                dobDateChooser.getDate(),
+                Integer.valueOf(mobileText.getText()),
+                emailText.getText(),
+                null,
                 null);
-        
+
         uBodyPanel2.removeAll();
         UserBodyPanel4 userBodyPanel4 = new UserBodyPanel4(userDto);
         userBodyPanel4.setSize(uBodyPanel2.getWidth(), uBodyPanel2.getHeight());
@@ -243,7 +247,7 @@ public class UserBodyPanel3 extends javax.swing.JPanel {
     private void loadUserData() {
         try {
             UserDto dto = userController.getUserData(userId);
-            
+
             if (dto != null) {
                 userIDText.setText(dto.getUserID().toString());
                 nameText.setText(dto.getName());
@@ -251,18 +255,17 @@ public class UserBodyPanel3 extends javax.swing.JPanel {
                 nicText.setText(dto.getNic());
                 jComboBox.setSelectedItem(dto.getTitle());
                 dobDateChooser.setDate(dto.getDob());
-                mobileText.setText(dto.getMobile().toString());
+                mobileText.setText("0" + dto.getMobile().toString());
                 emailText.setText(dto.getEmail());
-                
+
             } else {
                 JOptionPane.showMessageDialog(this, "User not Found");
             }
-            
+
         } catch (Exception ex) {
             Logger.getLogger(UserBodyPanel3.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }
 
-    
 }
