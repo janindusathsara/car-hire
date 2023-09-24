@@ -28,6 +28,6 @@ public class CustomerDto {
     private String address;
     private String nic;
     private Date dob;
-    private Integer mobileNo;
+    private String mobileNo;
     
 }

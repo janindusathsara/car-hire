@@ -11,6 +11,7 @@ import car.hire.dto.RentDto;
 import car.hire.entity.CarEntity;
 import car.hire.entity.CustomerEntity;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.logging.Level;
@@ -24,13 +25,17 @@ import javax.swing.JOptionPane;
 public class RentBodyPanel1 extends javax.swing.JPanel {
 
     RentController rentController;
+    Integer userID;
 
     /**
      * Creates new form RentBodyPanel
+     *
+     * @param userID
      */
-    public RentBodyPanel1() {
+    public RentBodyPanel1(Integer userID) {
         initComponents();
         rentController = new RentController();
+        this.userID = userID;
     }
 
     /**
@@ -114,6 +119,8 @@ public class RentBodyPanel1 extends javax.swing.JPanel {
 
         perDayRentLabel.setText("Per Day Rent");
         perDayRentLabel.setPreferredSize(new java.awt.Dimension(67, 22));
+
+        perDayRentText.setEditable(false);
 
         advanceLabel.setText("Advance Payment");
         advanceLabel.setPreferredSize(new java.awt.Dimension(92, 16));
@@ -267,7 +274,6 @@ public class RentBodyPanel1 extends javax.swing.JPanel {
             }
 
         } catch (Exception ex) {
-            Logger.getLogger(RentBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(rentButton, "Customer Not Found");
         }
     }
@@ -293,6 +299,7 @@ public class RentBodyPanel1 extends javax.swing.JPanel {
                 vehicleDataLabel.setText("Vehicle Not Found");
             } else {
                 vehicleDataLabel.setText(dto.getVehicleNumber() + ", " + dto.getBrand() + ", " + dto.getModel());
+                perDayRentText.setText(dto.getPricePerDay().toString());
             }
 
         } catch (Exception ex) {
@@ -315,23 +322,41 @@ public class RentBodyPanel1 extends javax.swing.JPanel {
     }
 
     private void addNewRent() {
-        try {
-            RentDto dto = new RentDto(
-                    null,
-                    getCustomer(),
-                    getVehicle(),
-                    fromDateToLocalDate(rentFromDateChooser.getDate()),
-                    fromDateToLocalDate(rentToDateChooser.getDate()),
-                    Double.valueOf(perDayRentText.getText()),
-                    Double.valueOf(advanceText.getText()),
-                    Double.valueOf(keyMoneyText.getText()));
-            String result = rentController.newRent(dto);
-            JOptionPane.showMessageDialog(rentButton, result);
-            clearPanel();
-        } catch (Exception ex) {
-            Logger.getLogger(RentBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+
+        Date fromDate, toDate;
+        fromDate = rentFromDateChooser.getDate();
+        toDate = rentToDateChooser.getDate();
+
+        if (custIDText.getText().equals("") || vehicleIDText.getText().equals("") || advanceText.getText().equals("") || keyMoneyText.getText().equals("") || fromDate.equals(null) || toDate.equals(null)) {
+            JOptionPane.showMessageDialog(this, "Please Fullyfill form");
+        } else if (validateDate()) {
+
+            try {
+                RentDto dto = new RentDto(
+                        null,
+                        getCustomer(),
+                        getVehicle(),
+                        fromDateToLocalDate(rentFromDateChooser.getDate()),
+                        fromDateToLocalDate(rentToDateChooser.getDate()),
+                        Double.valueOf(perDayRentText.getText()),
+                        Double.valueOf(advanceText.getText()),
+                        Double.valueOf(keyMoneyText.getText()),
+                        userID
+                );
+                String result = rentController.newRent(dto);
+                JOptionPane.showMessageDialog(rentButton, result);
+                clearPanel();
+            } catch (Exception ex) {
+                Logger.getLogger(RentBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Oops! The date range you selected is incorrect.");
+            rentFromDateChooser.setDate(null);
+            rentToDateChooser.setDate(null);
         }
+
     }
 
     public LocalDate fromDateToLocalDate(Date date) {
@@ -342,7 +367,7 @@ public class RentBodyPanel1 extends javax.swing.JPanel {
 
     private void clearPanel() {
         LocalDate now = LocalDate.now();
-        
+
         custIDText.setText("");
         vehicleIDText.setText("");
         vehicleDataLabel.setText("");
@@ -350,14 +375,26 @@ public class RentBodyPanel1 extends javax.swing.JPanel {
         perDayRentText.setText("");
         keyMoneyText.setText("");
         advanceText.setText("");
-        rentFromDateChooser.setDate(convertToDateUsingInstant(now));
-        rentToDateChooser.setDate(convertToDateUsingInstant(now));
+        rentFromDateChooser.setDate(null);
+        rentToDateChooser.setDate(null);
     }
-    
+
     public Date convertToDateUsingInstant(LocalDate date) {
         return java.util.Date.from(date.atStartOfDay()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
     }
-    
+
+    private boolean validateDate() {
+        LocalDate now = LocalDate.now();
+        Period diff1 = Period.between(now, fromDateToLocalDate(rentFromDateChooser.getDate()));
+        Period diff2 = Period.between(fromDateToLocalDate(rentFromDateChooser.getDate()), fromDateToLocalDate(rentToDateChooser.getDate()));
+
+        if (diff1.getDays() >= 0 && diff2.getDays() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

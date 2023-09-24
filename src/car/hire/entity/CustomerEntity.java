@@ -56,7 +56,7 @@ public class CustomerEntity {
     private Date dob;
     
     @Column(name = "PhoneNo", nullable = false, length = 10)
-    private Integer custPhoneNo;
+    private String custPhoneNo;
     
     private Boolean isRented;
     

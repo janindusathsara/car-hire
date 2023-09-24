@@ -46,7 +46,7 @@ public class UserEntity {
     @Column(name = "Address", nullable = false, length = 255)
     private String uAddress;
     
-    @Column(name = "NIC", nullable = false)
+    @Column(name = "NIC", nullable = false, length = 12)
     private String uNic;
 
     @Column(name = "E-mail", nullable = false, length = 255)
@@ -57,7 +57,7 @@ public class UserEntity {
     private Date dob;
 
     @Column(name = "Phone_No", nullable = false, length = 10)
-    private Integer uPhoneNo;
+    private String uPhoneNo;
 
     @Column(name = "UserName", nullable = false, length = 100)
     private String userName;

@@ -44,7 +44,8 @@ public class RentServiceImpl implements RentService {
                     fromDateToLocalDate(entity.getToDate()),
                     entity.getPerDayRent(),
                     entity.getAdvance(),
-                    entity.getKeyMoney());
+                    entity.getKeyMoney(),
+                    entity.getUserId());
             rentDtos.add(dto);
         }
         return rentDtos;
@@ -68,7 +69,8 @@ public class RentServiceImpl implements RentService {
                         fromDateToLocalDate(entity.getToDate()),
                         entity.getPerDayRent(),
                         entity.getAdvance(),
-                        entity.getKeyMoney());
+                        entity.getKeyMoney(),
+                        entity.getUserId());
                 rentDtos.add(dto);
             }
 
@@ -137,7 +139,7 @@ public class RentServiceImpl implements RentService {
                 dto.getKeyMoney(),
                 total,
                 (total - dto.getAdvance()),
-                1,
+                dto.getUserId(),
                 Boolean.FALSE,
                 now,
                 nowTime,
@@ -178,7 +180,8 @@ public class RentServiceImpl implements RentService {
                         fromDateToLocalDate(entity.getToDate()),
                         entity.getPerDayRent(),
                         entity.getAdvance(),
-                        entity.getKeyMoney());
+                        entity.getKeyMoney(),
+                        entity.getUserId());
                 rentDtos.add(dto);
             }
 
@@ -201,7 +204,8 @@ public class RentServiceImpl implements RentService {
                     fromDateToLocalDate(entity.getToDate()),
                     entity.getPerDayRent(),
                     entity.getAdvance(),
-                    entity.getKeyMoney());
+                    entity.getKeyMoney(), 
+                    entity.getUserId());
             rentDtos.add(dto);
         }
 

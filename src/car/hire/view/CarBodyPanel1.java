@@ -7,6 +7,8 @@ package car.hire.view;
 import car.hire.controller.CarController;
 import car.hire.dto.CarDto;
 import car.hire.entity.CarCategoryEntity;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -219,7 +221,7 @@ public class CarBodyPanel1 extends javax.swing.JPanel {
     }//GEN-LAST:event_addCarButtonActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        
+
     }//GEN-LAST:event_backButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
@@ -253,7 +255,7 @@ public class CarBodyPanel1 extends javax.swing.JPanel {
 
     private void searchCarCategoryDto() {
         try {
-            Integer carId = Integer.parseInt(vCategoryIdText.getText());
+            Integer carId = Integer.valueOf(vCategoryIdText.getText());
             CarCategoryEntity entity = carController.getCarCategoryEntity(carId);
             if (entity == null) {
                 vCategoryDataLabel.setText("Wrong Car Category ID");
@@ -263,30 +265,46 @@ public class CarBodyPanel1 extends javax.swing.JPanel {
 
         } catch (Exception ex) {
             Logger.getLogger(CarBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }
 
     private void addNewCar() {
 
-        try {
-            Integer carId = Integer.parseInt(vCategoryIdText.getText());
-            CarDto carDto = new CarDto(
-                    null,
-                    vNumberText.getText(),
-                    carController.getCarCategoryEntity(carId),
-                    vModelText.getText(),
-                    vBrandText.getText(),
-                    vYearChooser.getValue(),
-                    vColourText.getText(),
-                    vChassisNoText.getText(),
-                    Double.valueOf(vPricePDayText.getText()));
+        if (vNumberText.getText().equals("") || vPricePDayText.getText().equals("") || vCategoryIdText.getText().equals("") || vBrandText.getText().equals("") || vModelText.getText().equals("") || vChassisNoText.getText().equals("") || vColourText.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Please Fullyfill Car details");
+        } else if (validateNumber(vNumberText.getText())) {
+            
+            if (validateYear(vYearChooser.getYear())) {
+                
+                try {
+                Integer carId = Integer.valueOf(vCategoryIdText.getText());
+                CarDto carDto = new CarDto(
+                        null,
+                        vNumberText.getText(),
+                        carController.getCarCategoryEntity(carId),
+                        vModelText.getText(),
+                        vBrandText.getText(),
+                        vYearChooser.getValue(),
+                        vColourText.getText(),
+                        vChassisNoText.getText(),
+                        Double.valueOf(vPricePDayText.getText()));
 
-            String result = carController.addNewCar(carDto);
-            JOptionPane.showMessageDialog(this, result);
-            clearPanel();
-        } catch (Exception ex) {
-            Logger.getLogger(CarBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+                String result = carController.addNewCar(carDto);
+                JOptionPane.showMessageDialog(this, result);
+                clearPanel();
+            } catch (Exception ex) {
+                Logger.getLogger(CarBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong Year");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Your vehicle number is Invalid.\nUse XXX-0000 or XX-0000 pattern");
         }
+
     }
 
     private void clearPanel() {
@@ -298,6 +316,59 @@ public class CarBodyPanel1 extends javax.swing.JPanel {
         vChassisNoText.setText("");
         vPricePDayText.setText("");
         vCategoryDataLabel.setText("");
+    }
+
+    public static boolean validateYear(int year) {
+        LocalDate now = LocalDate.now();
+        int nowYear = now.getYear();
+        if (year < nowYear) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
+    public static boolean validateNumber(String number) {
+        int length = number.length();
+
+        if (length == 7) {
+            char firstChar = number.charAt(2);
+
+            for (int i = 3; i < 7; i++) {
+                char currentChar = number.charAt(i);
+                if (currentChar < '0' || '9' < currentChar) {
+                    return false;
+                } else {
+                    if (firstChar == '-') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+
+        } else if (length == 8) {
+            char firstChar = number.charAt(3);
+
+            for (int i = 4; i < 8; i++) {
+                char currentChar = number.charAt(i);
+                if (currentChar < '0' || '9' < currentChar) {
+                    return false;
+                } else {
+                    if (firstChar == '-') {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+
+        } else {
+            return false;
+        }
+        return false;
+
     }
 
 }

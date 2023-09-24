@@ -6,6 +6,10 @@ package car.hire.view;
 
 import car.hire.controller.CustomerController;
 import car.hire.dto.CustomerDto;
+import static car.hire.view.UserBodyPanel1.validateDob;
+import static car.hire.view.UserBodyPanel1.validateMobile;
+import static car.hire.view.UserBodyPanel1.validateNic;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -15,12 +19,14 @@ import javax.swing.JOptionPane;
  * @author DELL i5
  */
 public class CustomerBodyPanel2 extends javax.swing.JPanel {
-    
+
     Integer custId;
     CustomerController customerController;
 
     /**
      * Creates new form CustomerBodyPanel
+     *
+     * @param custId
      */
     public CustomerBodyPanel2(Integer custId) {
         initComponents();
@@ -179,41 +185,78 @@ public class CustomerBodyPanel2 extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void updateCustomer() {
-        
-        try {
-            CustomerDto dto = new CustomerDto(
-                    Integer.parseInt(custIdText.getText()),
-                    jComboBox.getSelectedItem().toString(),
-                    custNameText.getText(),
-                    custAddressText.getText(),
-                    custNicText.getText(),
-                    jDateChooser.getDate(),
-                    Integer.parseInt(custMobileText.getText()));
-            
-            String result = customerController.updateCustomer(dto);
-            JOptionPane.showMessageDialog(this, result);
-        } catch (Exception ex) {
-            Logger.getLogger(CustomerBodyPanel2.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+
+        Date dob;
+        dob = jDateChooser.getDate();
+
+        if (custNameText.getText().equals("") || custAddressText.getText().equals("") || custMobileText.getText().equals("") || custNicText.getText().equals("") || dob.equals(null)) {
+
+        } else if (validateNic(custNicText.getText())) {
+
+            if (validateMobile(custMobileText.getText())) {
+
+                if (validateDob(jDateChooser.getDate())) {
+
+                    try {
+                        CustomerDto dto = new CustomerDto(
+                                Integer.valueOf(custIdText.getText()),
+                                jComboBox.getSelectedItem().toString(),
+                                custNameText.getText(),
+                                custAddressText.getText(),
+                                custNicText.getText(),
+                                jDateChooser.getDate(),
+                                custMobileText.getText());
+
+                        String result = customerController.updateCustomer(dto);
+                        JOptionPane.showMessageDialog(this, result);
+                        clearPanel();
+                    } catch (Exception ex) {
+                        Logger.getLogger(CustomerBodyPanel2.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(this, ex.getMessage());
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Oops! You are minor");
+                    jDateChooser.setDate(null);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter valid Mobile Number");
+                custMobileText.setText("");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter valid NIC Number");
+            custNicText.setText("");
         }
-        
+
     }
 
     private void setCustomerData() {
         try {
             CustomerDto dto = customerController.getCustomerDto(custId);
-            
+
             custIdText.setText(dto.getId().toString());
             custNameText.setText(dto.getName());
             custAddressText.setText(dto.getAddress());
-            custMobileText.setText(dto.getMobileNo().toString());
+            custMobileText.setText(dto.getMobileNo());
             custNicText.setText(dto.getNic());
             jDateChooser.setDate(dto.getDob());
             jComboBox.setSelectedItem(dto.getTitle());
-            
+
         } catch (Exception ex) {
             Logger.getLogger(CustomerBodyPanel2.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
+    }
+    
+    private void clearPanel() {
+        custIdText.setText("");
+        custNameText.setText("");
+        custAddressText.setText("");
+        custNicText.setText("");
+        custMobileText.setText("");
+        jComboBox.setSelectedItem("Mr.");
+        jDateChooser.setDate(new Date());
     }
 }

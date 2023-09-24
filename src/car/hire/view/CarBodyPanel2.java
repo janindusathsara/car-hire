@@ -5,9 +5,10 @@
 package car.hire.view;
 
 import car.hire.controller.CarController;
-import car.hire.dto.CarCategoryDto;
 import car.hire.dto.CarDto;
 import car.hire.entity.CarCategoryEntity;
+import static car.hire.view.CarBodyPanel1.validateNumber;
+import static car.hire.view.CarBodyPanel1.validateYear;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -17,11 +18,13 @@ import javax.swing.JOptionPane;
  * @author DELL i5
  */
 public class CarBodyPanel2 extends javax.swing.JPanel {
+
     CarController carController;
     Integer carId;
 
     /**
      * Creates new form CarBodyPanel2
+     *
      * @param carId
      */
     public CarBodyPanel2(Integer carId) {
@@ -255,9 +258,9 @@ public class CarBodyPanel2 extends javax.swing.JPanel {
 
     private void loadCar(Integer carId) {
         try {
-            
-            CarDto dto  = carController.getCarEntity(carId);
-            
+
+            CarDto dto = carController.getCarEntity(carId);
+
             vIDText.setText(dto.getVehicleId().toString());
             vNumberText.setText(dto.getVehicleNumber());
             vCategoryIdText.setText(dto.getCarCategoryEntity().getCategoryId().toString());
@@ -267,47 +270,62 @@ public class CarBodyPanel2 extends javax.swing.JPanel {
             vChassisNoText.setText(dto.getChassisNo());
             vPricePDayText.setText(dto.getPricePerDay().toString());
             vYearChooser.setValue(dto.getYear());
-            
+
         } catch (Exception ex) {
             Logger.getLogger(CarBodyPanel2.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
-        
+
     }
 
     private void updateCar() {
-        try {
-            CarDto carDto = new CarDto(
-                    carId,
-                    vNumberText.getText(),
-                    carController.getCarCategoryEntity(carId),
-                    vModelText.getText(),
-                    vBrandText.getText(),
-                    vYearChooser.getValue(),
-                    vColourText.getText(),
-                    vChassisNoText.getText(),
-                    Double.valueOf(vPricePDayText.getText()));
-            
-            String result = carController.updateCar(carDto);
-            JOptionPane.showMessageDialog(this, result);
-            
-        } catch (Exception ex) {
-            Logger.getLogger(CarBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+
+        if (vNumberText.getText().equals("") || vPricePDayText.getText().equals("") || vCategoryIdText.getText().equals("") || vBrandText.getText().equals("") || vModelText.getText().equals("") || vChassisNoText.getText().equals("") || vColourText.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Please Fullyfill Car details");
+        } else if (validateNumber(vNumberText.getText())) {
+
+            if (validateYear(vYearChooser.getYear())) {
+
+                try {
+                    CarDto carDto = new CarDto(
+                            carId,
+                            vNumberText.getText(),
+                            carController.getCarCategoryEntity(carId),
+                            vModelText.getText(),
+                            vBrandText.getText(),
+                            vYearChooser.getValue(),
+                            vColourText.getText(),
+                            vChassisNoText.getText(),
+                            Double.valueOf(vPricePDayText.getText()));
+
+                    String result = carController.updateCar(carDto);
+                    JOptionPane.showMessageDialog(this, result);
+
+                } catch (Exception ex) {
+                    Logger.getLogger(CarBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Wrong Year");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Your vehicle number is Invalid.\nUse XXX-0000 or XX-0000 pattern");
         }
     }
 
     private void searchCarCategoryDto() {
         try {
             CarCategoryEntity entity = carController.getCarCategoryEntity(carId);
-            if (entity==null) {
+            if (entity == null) {
                 vCategoryDataLabel.setText("Wrong Car Category ID");
             } else {
                 vCategoryDataLabel.setText(entity.getName());
             }
         } catch (Exception ex) {
             Logger.getLogger(CarBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }
 
-    
 }

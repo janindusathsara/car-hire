@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 public class RentBodyPanel2 extends javax.swing.JPanel {
 
     Integer rentId;
-    Integer userId = 0;
+    Integer userID;
     RentController rentController;
     CustomerEntity ce;
     CarEntity ce1;
@@ -28,10 +28,12 @@ public class RentBodyPanel2 extends javax.swing.JPanel {
      * Creates new form RentBodyPanel
      *
      * @param rentId
+     * @param userID
      */
-    public RentBodyPanel2(Integer rentId) {
+    public RentBodyPanel2(Integer rentId, Integer userID) {
         initComponents();
         this.rentId = rentId;
+        this.userID = userID;
         rentController = new RentController();
         loadRentData();
     }
@@ -278,7 +280,7 @@ public class RentBodyPanel2 extends javax.swing.JPanel {
                     Double.valueOf(keyMoneyText.getText()),
                     Double.valueOf(totalText.getText()),
                     Double.valueOf(finalBalanceText.getText()),
-                    userId);
+                    userID);
 
             String result = rentController.returnCar(dto);
             JOptionPane.showMessageDialog(rentIDText, result);

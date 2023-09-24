@@ -7,6 +7,7 @@ package car.hire.dao.custom;
 import car.hire.dao.SuperDao;
 import car.hire.entity.UserEntity;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -25,5 +26,9 @@ public interface UserDao extends SuperDao{
     public String updateUser(UserEntity userEntity) throws Exception;
 
     public UserEntity getUserData(Integer userId) throws Exception;
+
+    public List<Object[]> login(String userName, String password) throws Exception;
+
+    public UserEntity getUserID(String userName, String password) throws Exception;
     
 }

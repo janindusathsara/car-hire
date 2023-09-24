@@ -11,6 +11,7 @@ import car.hire.entity.UserEntity;
 import car.hire.service.custom.UserService;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
     public ArrayList<UserDto> getAllUsers() throws Exception {
         ArrayList<UserDto> dtos = new ArrayList<>();
         ArrayList<Object[]> data = userDao.getAllUsers();
-        
+
         for (Object[] dataOb : data) {
             UserDto ud = new UserDto(
                     (Integer) dataOb[0],
@@ -32,8 +33,8 @@ public class UserServiceImpl implements UserService {
                     (String) dataOb[2],
                     (String) dataOb[3],
                     (String) dataOb[4],
-                    ((Date)dataOb[6]),
-                    (Integer) dataOb[7],
+                    ((Date) dataOb[6]),
+                    (String) dataOb[7],
                     (String) dataOb[5],
                     (String) dataOb[8],
                     (String) dataOb[9]);
@@ -101,6 +102,35 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserData(Integer userId) throws Exception {
         UserEntity entity = userDao.getUserData(userId);
+        UserDto dto = new UserDto(
+                entity.getUserId(),
+                entity.getUTitle(),
+                entity.getUname(),
+                entity.getUAddress(),
+                entity.getUNic(),
+                entity.getDob(),
+                entity.getUPhoneNo(),
+                entity.getEmail(),
+                entity.getUserName(),
+                entity.getPassword());
+        return dto;
+    }
+
+    @Override
+    public boolean login(String userName, String password) throws Exception {
+        List<Object[]> rows = userDao.login(userName, password);
+        for (Object[] row : rows) {
+            if (row[0] != null) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    @Override
+    public UserDto getUserID(String userName, String password) throws Exception {
+        UserEntity entity = userDao.getUserID(userName, password);
         UserDto dto = new UserDto(
                 entity.getUserId(), 
                 entity.getUTitle(), 

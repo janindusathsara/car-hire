@@ -6,6 +6,13 @@ package car.hire.view;
 
 import car.hire.controller.UserController;
 import car.hire.dto.UserDto;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -216,24 +223,127 @@ public class UserBodyPanel1 extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void loadUserBodyPanel2() {
-        UserDto userDto = new UserDto(
-                Integer.valueOf(userIDText.getText()), 
-                jComboBox.getSelectedItem().toString(), 
-                nameText.getText(), 
-                addressText.getText(), 
-                nicText.getText(), 
-                dobDateChooser.getDate(), 
-                Integer.valueOf(mobileText.getText()), 
-                emailText.getText(), 
-                null, 
-                null);
-        
-        uBodyPanel2.removeAll();
-        UserBodyPanel2 userBodyPanel2 = new UserBodyPanel2(userDto);
-        userBodyPanel2.setSize(uBodyPanel2.getWidth(), uBodyPanel2.getHeight());
-        uBodyPanel2.add(userBodyPanel2);
-        uBodyPanel2.repaint();
-        uBodyPanel2.revalidate();
+
+        Date dob;
+        try {
+            dob = dobDateChooser.getDate();
+
+            if ("".equals(nameText.getText()) || "".equals(addressText.getText()) || "".equals(nicText.getText()) || "".equals(mobileText.getText()) || "".equals(emailText.getText())) {
+                JOptionPane.showMessageDialog(this, "Please fill your data");
+            } else if (validateNic(nicText.getText())) {
+
+                if (validateDob(dobDateChooser.getDate())) {
+
+                    if (validateMobile(mobileText.getText())) {
+
+                        if (validateEmail(emailText.getText())) {
+
+                            UserDto userDto = new UserDto(
+                                    Integer.valueOf(userIDText.getText()),
+                                    jComboBox.getSelectedItem().toString(),
+                                    nameText.getText(),
+                                    addressText.getText(),
+                                    nicText.getText(),
+                                    dob,
+                                    mobileText.getText(),
+                                    emailText.getText(),
+                                    null,
+                                    null);
+
+                            uBodyPanel2.removeAll();
+                            UserBodyPanel2 userBodyPanel2 = new UserBodyPanel2(userDto);
+                            userBodyPanel2.setSize(uBodyPanel2.getWidth(), uBodyPanel2.getHeight());
+                            uBodyPanel2.add(userBodyPanel2);
+                            uBodyPanel2.repaint();
+                            uBodyPanel2.revalidate();
+
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Please enter valid Email Address");
+                            emailText.setText("");
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Please enter valid Mobile Number");
+                        mobileText.setText("");
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Oops! You are minor");
+                    dobDateChooser.setDate(null);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter valid NIC Number");
+                nicText.setText("");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please enter your DOB");
+        }
+
     }
 
+    public static Boolean validateMobile(String text) {
+        return text.matches("\\d{10}|(?:\\d{3}-){2}\\d{4}|\\(\\d{3}\\)\\d{3}-?\\d{4}");
+    }
+
+    public static boolean validateEmail(String emailAddress) {
+        String regexPattern = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        return Pattern.compile(regexPattern)
+                .matcher(emailAddress)
+                .matches();
+    }
+
+    public static boolean validateNic(String nic) {
+        int length = nic.length();
+        char lastChar = nic.charAt(length - 1);
+
+        if (length == 12) {
+
+            for (int i = 0; i < length - 1; i++) {// Check characters are digits
+                char currentChar = nic.charAt(i);
+                if (currentChar < '0' || '9' < currentChar) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+        } else if (length == 10) {
+
+            if (lastChar == 'v' || lastChar == 'V' || lastChar == 'x' || lastChar == 'X') {// Check last character for v, V, x, or X
+
+                for (int i = 0; i < length - 2; i++) {// Check first 9 characters are digits
+                    char currentChar = nic.charAt(i);
+                    if (currentChar < '0' || '9' < currentChar) {
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+
+            } else {
+                return false;
+            }
+
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    public static boolean validateDob(Date dob) {
+        LocalDate now = LocalDate.now();
+        Period diff = Period.between(fromDateToLocalDate(dob), now);
+        if (diff.getYears() >= 18) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static LocalDate fromDateToLocalDate(Date date) {
+        return Instant.ofEpochMilli(date.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
 }

@@ -6,6 +6,9 @@ package car.hire.view;
 
 import car.hire.controller.CustomerController;
 import car.hire.dto.CustomerDto;
+import static car.hire.view.UserBodyPanel1.validateDob;
+import static car.hire.view.UserBodyPanel1.validateMobile;
+import static car.hire.view.UserBodyPanel1.validateNic;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,16 +19,16 @@ import javax.swing.JOptionPane;
  * @author DELL i5
  */
 public class CustomerBodyPanel1 extends javax.swing.JPanel {
-    
+
     CustomerController customerController;
-    
+
     /**
      * Creates new form CustomerBodyPanel
      */
     public CustomerBodyPanel1() {
         initComponents();
         customerController = new CustomerController();
-        
+
     }
 
     /**
@@ -184,23 +187,51 @@ public class CustomerBodyPanel1 extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void addNewCustomer() {
-        try {
-            CustomerDto customerDto = new CustomerDto(
-                    null,
-                    (String) jComboBox.getSelectedItem(),
-                    custNameText.getText(),
-                    custAddressText.getText(),
-                    custNicText.getText(),
-                    jDateChooser.getDate(),
-                    Integer.parseInt(custMobileText.getText()));
-            
-            String result = customerController.addNewCustomer(customerDto);
-            JOptionPane.showMessageDialog(this, result);
-            clearPanel();
-        } catch (Exception ex) {
-            Logger.getLogger(CustomerBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(this, ex.getMessage());
+
+        Date dob;
+        dob = jDateChooser.getDate();
+
+        if (custNameText.getText().equals("") || custAddressText.getText().equals("") || custMobileText.getText().equals("") || custNicText.getText().equals("") || dob.equals(null)) {
+            JOptionPane.showMessageDialog(this, "Please Fullyfill form");
+        } else if (validateNic(custNicText.getText())) {
+
+            if (validateMobile(custMobileText.getText())) {
+
+                if (validateDob(jDateChooser.getDate())) {
+
+                    try {
+                        CustomerDto customerDto = new CustomerDto(
+                                null,
+                                (String) jComboBox.getSelectedItem(),
+                                custNameText.getText(),
+                                custAddressText.getText(),
+                                custNicText.getText(),
+                                jDateChooser.getDate(),
+                                custMobileText.getText());
+
+                        String result = customerController.addNewCustomer(customerDto);
+                        JOptionPane.showMessageDialog(this, result);
+                        clearPanel();
+                    } catch (Exception ex) {
+                        Logger.getLogger(CustomerBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(this, ex.getMessage());
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Oops! You are minor");
+                    jDateChooser.setDate(null);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter valid Mobile Number");
+                custMobileText.setText("");
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Please enter valid NIC Number");
+            custNicText.setText("");
         }
+
     }
 
     private void clearPanel() {

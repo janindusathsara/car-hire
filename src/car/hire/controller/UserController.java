@@ -40,5 +40,13 @@ public class UserController {
         return userService.getUserData(userId);
     }
 
+    public boolean login(String userName, String password) throws Exception {
+        return userService.login(userName, password);
+    }
 
+    public UserDto getUserID(String userName, String password) throws Exception {
+        return userService.getUserID(userName, password);
+    }
+
+    
 }

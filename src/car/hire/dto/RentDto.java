@@ -28,5 +28,6 @@ public class RentDto {
     private Double perDayRent;
     private Double advance;
     private Double keyMoney;
+    private Integer userId;
 
 }

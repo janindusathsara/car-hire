@@ -4,6 +4,10 @@
  */
 package car.hire.view;
 
+import car.hire.controller.UserController;
+import car.hire.dto.UserDto;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -12,13 +16,17 @@ import javax.swing.JOptionPane;
  */
 public class LoginView extends javax.swing.JFrame {
 
+    UserController userController;
     String[] args;
 
     /**
      * Creates new form LoginView
+     *
+     * @param args
      */
     public LoginView(String[] args) {
         initComponents();
+        userController = new UserController();
         this.args = args;
     }
 
@@ -218,10 +226,7 @@ public class LoginView extends javax.swing.JFrame {
 
             if (!password.equals("")) {
 
-                this.setVisible(false);
-                LayoutView layoutView = new LayoutView(args);
-                layoutView.setLocationRelativeTo(null);
-                layoutView.setVisible(true);
+                loadLayoutView(userName, password);
 
             } else {
                 JOptionPane.showMessageDialog(this, "Enter Password");
@@ -229,5 +234,31 @@ public class LoginView extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Enter User Name");
         }
+    }
+
+    private void loadLayoutView(String userName, String password) {
+
+        try {
+            if (userController.login(userName, password)) {
+
+                try {
+                    UserDto dto = userController.getUserID(userName, password);
+                    this.setVisible(false);
+                    LayoutView layoutView = new LayoutView(args, dto.getName(),dto.getUserID());
+                    layoutView.setLocationRelativeTo(null);
+                    layoutView.setVisible(true);
+                } catch (Exception e) {
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Username and Password donot Matched");
+                userNameText.setText("");
+                passwordField.setText("");
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }

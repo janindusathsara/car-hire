@@ -139,7 +139,41 @@ public class UserDaoImpl implements UserDao {
                     (String) row[4],
                     (String) row[5],
                     (Date) row[6],
-                    (Integer) row[7],
+                    (String) row[7],
+                    (String) row[8],
+                    (String) row[9]);
+            return entity;
+        }
+        return null;
+    }
+
+    @Override
+    public List<Object[]> login(String userName, String password) throws Exception {
+        Transaction transaction = session.beginTransaction();
+        String sql = "SELECT * FROM user WHERE UserName = '" + userName + "' AND Password = '" + password + "'";
+        Query query = session.createSQLQuery(sql);
+        List<Object[]> rows = query.list();
+        transaction.commit();
+        return rows;
+    }
+
+    @Override
+    public UserEntity getUserID(String userName, String password) throws Exception {
+        Transaction transaction = session.beginTransaction();
+        String sql = "SELECT * FROM user WHERE UserName = '" + userName + "' AND Password = '" + password + "'";
+        Query query = session.createSQLQuery(sql);
+        List<Object[]> rows = query.list();
+        transaction.commit();
+        for (Object[] row : rows) {
+            UserEntity entity = new UserEntity(
+                    (Integer) row[0],
+                    (String) row[1],
+                    (String) row[2],
+                    (String) row[3],
+                    (String) row[4],
+                    (String) row[5],
+                    (Date) row[6],
+                    (String) row[7],
                     (String) row[8],
                     (String) row[9]);
             return entity;

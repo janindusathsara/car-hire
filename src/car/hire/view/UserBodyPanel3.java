@@ -6,6 +6,11 @@ package car.hire.view;
 
 import car.hire.controller.UserController;
 import car.hire.dto.UserDto;
+import static car.hire.view.UserBodyPanel1.validateDob;
+import static car.hire.view.UserBodyPanel1.validateEmail;
+import static car.hire.view.UserBodyPanel1.validateMobile;
+import static car.hire.view.UserBodyPanel1.validateNic;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -224,24 +229,63 @@ public class UserBodyPanel3 extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void loadUserBodyPanel4() {
-        UserDto userDto = new UserDto(
-                Integer.valueOf(userIDText.getText()),
-                jComboBox.getSelectedItem().toString(),
-                nameText.getText(),
-                addressText.getText(),
-                nicText.getText(),
-                dobDateChooser.getDate(),
-                Integer.valueOf(mobileText.getText()),
-                emailText.getText(),
-                null,
-                null);
 
-        uBodyPanel2.removeAll();
-        UserBodyPanel4 userBodyPanel4 = new UserBodyPanel4(userDto);
-        userBodyPanel4.setSize(uBodyPanel2.getWidth(), uBodyPanel2.getHeight());
-        uBodyPanel2.add(userBodyPanel4);
-        uBodyPanel2.repaint();
-        uBodyPanel2.revalidate();
+        Date dob;
+        try {
+            dob = dobDateChooser.getDate();
+
+            if ("".equals(nameText.getText()) || "".equals(addressText.getText()) || "".equals(nicText.getText()) || "".equals(mobileText.getText()) || "".equals(emailText.getText())) {
+                JOptionPane.showMessageDialog(this, "Please fill your data");
+            } else if (validateNic(nicText.getText())) {
+
+                if (validateDob(dobDateChooser.getDate())) {
+
+                    if (validateMobile(mobileText.getText())) {
+
+                        if (validateEmail(emailText.getText())) {
+
+                            UserDto userDto = new UserDto(
+                                    Integer.valueOf(userIDText.getText()),
+                                    jComboBox.getSelectedItem().toString(),
+                                    nameText.getText(),
+                                    addressText.getText(),
+                                    nicText.getText(),
+                                    dob,
+                                    mobileText.getText(),
+                                    emailText.getText(),
+                                    null,
+                                    null);
+
+                            uBodyPanel2.removeAll();
+                            UserBodyPanel4 userBodyPanel4 = new UserBodyPanel4(userDto);
+                            userBodyPanel4.setSize(uBodyPanel2.getWidth(), uBodyPanel2.getHeight());
+                            uBodyPanel2.add(userBodyPanel4);
+                            uBodyPanel2.repaint();
+                            uBodyPanel2.revalidate();
+
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Please enter valid Email Address");
+                            emailText.setText("");
+                        }
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Please enter valid Mobile Number");
+                        mobileText.setText("");
+                    }
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "Oops! You are minor");
+                    dobDateChooser.setDate(null);
+                }
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Please enter valid NIC Number");
+                nicText.setText("");
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Please enter your DOB");
+        }
+
     }
 
     private void loadUserData() {
@@ -255,7 +299,7 @@ public class UserBodyPanel3 extends javax.swing.JPanel {
                 nicText.setText(dto.getNic());
                 jComboBox.setSelectedItem(dto.getTitle());
                 dobDateChooser.setDate(dto.getDob());
-                mobileText.setText("0" + dto.getMobile().toString());
+                mobileText.setText(dto.getMobile());
                 emailText.setText(dto.getEmail());
 
             } else {

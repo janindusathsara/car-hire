@@ -26,4 +26,8 @@ public interface UserService extends SuperService {
 
     public UserDto getUserData(Integer userId) throws Exception;
 
+    public boolean login(String userName, String password) throws Exception;
+
+    public UserDto getUserID(String userName, String password) throws Exception;
+
 }

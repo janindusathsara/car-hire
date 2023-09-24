@@ -24,7 +24,7 @@ public class UserDto {
     private String address;
     private String nic;
     private Date dob;
-    private Integer mobile;
+    private String mobile;
     private String email;
     private String userName;
     private String userPassword;

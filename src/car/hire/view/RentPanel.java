@@ -19,13 +19,16 @@ import javax.swing.table.DefaultTableModel;
 public class RentPanel extends javax.swing.JPanel {
 
     RentController rentController;
+    Integer userID;
 
     /**
      * Creates new form RentPanel
+     * @param userID
      */
-    public RentPanel(String[] args) {
+    public RentPanel(String[] args, Integer userID) {
         initComponents();
         rentController = new RentController();
+        this.userID = userID;
         loadRentTable();
     }
 
@@ -183,7 +186,7 @@ public class RentPanel extends javax.swing.JPanel {
 
     private void loadRentBodyPanel1() {
         rBodyPanel.removeAll();
-        RentBodyPanel1 rentBodyPanel = new RentBodyPanel1();
+        RentBodyPanel1 rentBodyPanel = new RentBodyPanel1(userID);
         rentBodyPanel.setSize(rBodyPanel.getWidth(), rBodyPanel.getHeight());
         rBodyPanel.add(rentBodyPanel);
         rBodyPanel.repaint();
@@ -317,7 +320,7 @@ public class RentPanel extends javax.swing.JPanel {
 
     private void loadRentBodyPanel2(Integer rentId) {
         rBodyPanel.removeAll();
-        RentBodyPanel2 rentBodyPanel2 = new RentBodyPanel2(rentId);
+        RentBodyPanel2 rentBodyPanel2 = new RentBodyPanel2(rentId, userID);
         rentBodyPanel2.setSize(rBodyPanel.getWidth(), rBodyPanel.getHeight());
         rBodyPanel.add(rentBodyPanel2);
         rBodyPanel.repaint();

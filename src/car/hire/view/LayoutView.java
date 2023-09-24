@@ -15,13 +15,21 @@ import java.util.logging.Logger;
 public class LayoutView extends javax.swing.JFrame {
 
     String[] args;
+    String name; 
+    Integer userID;
     /**
      * Creates new form LayoutView
      * @param args
+     * @param name
+     * @param userID
      */
-    public LayoutView(String[] args) {
+    public LayoutView(String[] args, String name, Integer userID) {
         initComponents();
         this.args = args;
+        this.name = name;
+        this.userID = userID;
+        userIDLabel.setText("ID - "+userID.toString());
+        userNameLabel.setText(name);
     }
 
     /**
@@ -44,7 +52,7 @@ public class LayoutView extends javax.swing.JFrame {
         rentButton = new javax.swing.JButton();
         manageUsersButton = new javax.swing.JButton();
         userIDLabel = new javax.swing.JLabel();
-        userNameLabel1 = new javax.swing.JLabel();
+        userNameLabel = new javax.swing.JLabel();
         bodyPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -135,7 +143,7 @@ public class LayoutView extends javax.swing.JFrame {
             .addGroup(sideNavPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(sideNavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(userNameLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(userNameLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(sideNavPanelLayout.createSequentialGroup()
                         .addGroup(sideNavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sideNavPanelLayout.createSequentialGroup()
@@ -164,7 +172,7 @@ public class LayoutView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 143, Short.MAX_VALUE)
                 .addComponent(manageUsersButton)
                 .addGap(26, 26, 26)
-                .addComponent(userNameLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(sideNavPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(logoutButton)
@@ -265,7 +273,7 @@ public class LayoutView extends javax.swing.JFrame {
     private javax.swing.JButton rentButton;
     private javax.swing.JPanel sideNavPanel;
     private javax.swing.JLabel userIDLabel;
-    private javax.swing.JLabel userNameLabel1;
+    private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 
     private void loadManageCategoryPanel() {
@@ -306,7 +314,7 @@ public class LayoutView extends javax.swing.JFrame {
 
     private void loadRentPanel() {
         bodyPanel.removeAll();
-        RentPanel rentPanel = new RentPanel(args);
+        RentPanel rentPanel = new RentPanel(args, userID);
         rentPanel.setSize(bodyPanel.getWidth(), bodyPanel.getHeight());
         bodyPanel.add(rentPanel);
         bodyPanel.repaint();
