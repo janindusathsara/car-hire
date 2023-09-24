@@ -142,30 +142,10 @@ public class RentDaoImpl implements RentDao {
             int i2 = query2.executeUpdate();
             session.clear();
             if (i2 > 0) {
-                
+
                 session.update(entity);
                 transaction.commit();
                 return "Success";
-
-//                String sql3 = "UPDATE rental SET Is_Returned = true, Total =?, Balance =?, UserID = ?, Return_Date = ?, WHERE RentID = ?";
-//                SQLQuery query3 = session.createSQLQuery(sql3);
-//                query3.setParameter(1, entity.getTotal());
-//                query3.setParameter(2, entity.getBalance());
-//                query3.setParameter(3, entity.getUserId());
-//                query3.setParameter(4, entity.getReturnDate());
-//                query3.setParameter(5, entity.getRentId());
-//
-//                int i3 = query3.executeUpdate();
-//
-//                if (i3 > 0) {
-//
-//                    transaction.commit();
-//                    return "Success";
-//
-//                } else {
-//                    transaction.rollback();
-//                    return "Rental Update Error";
-//                }
 
             } else {
                 transaction.rollback();
@@ -177,5 +157,5 @@ public class RentDaoImpl implements RentDao {
             return "Customer Update Error";
         }
     }
-
+    
 }

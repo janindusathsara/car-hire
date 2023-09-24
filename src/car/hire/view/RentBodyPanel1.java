@@ -11,6 +11,7 @@ import car.hire.dto.RentDto;
 import car.hire.entity.CarEntity;
 import car.hire.entity.CustomerEntity;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
@@ -345,6 +346,37 @@ public class RentBodyPanel1 extends javax.swing.JPanel {
                 );
                 String result = rentController.newRent(dto);
                 JOptionPane.showMessageDialog(rentButton, result);
+
+                if (result.equals("Success")) {
+
+                    LocalDate from = dto.getFromDate();
+                    LocalDate to = dto.getToDate();
+                    LocalDate now = LocalDate.now();
+                    LocalTime nowTime = LocalTime.now();
+
+                    Period diff = Period.between(from, to);
+                    int days = diff.getDays() + 1;
+                    Double total = (diff.getDays() + 1) * dto.getPerDayRent();
+                    Double balan = total - (Double.valueOf(advanceText.getText()) + Double.valueOf(keyMoneyText.getText()));
+
+                    JOptionPane.showMessageDialog(this, "\t\tInvoic\n\n" + now + "\n" + nowTime + "\n\n"
+                            + "Customer ID          :" + getCustomer().getCustId() + "\n"
+                            + "Customer Name   :" + getCustomer().getCustName() + "\n"
+                            + "Customer NIC        :" + getCustomer().getNic() + "\n"
+                            + "\n"
+                            + "Vehicle ID        :" + getVehicle().getVehicleId() + "\n"
+                            + "Vehicle Model :" + getVehicle().getModel() + "\n"
+                            + "Vehicle Brand :" + getVehicle().getBrand() + "\n"
+                            + "\n"
+                            + "No of Days :" + days + "\n"
+                            + "Total            :" + total + "\n"
+                            + "Advance     :" + Double.valueOf(advanceText.getText()) + "\n"
+                            + "Key Money :" + Double.valueOf(keyMoneyText.getText()) + "\n"
+                            + "Balance      :" + balan
+                    );
+
+                }
+
                 clearPanel();
             } catch (Exception ex) {
                 Logger.getLogger(RentBodyPanel1.class.getName()).log(Level.SEVERE, null, ex);

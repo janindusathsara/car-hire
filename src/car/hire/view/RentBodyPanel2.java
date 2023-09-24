@@ -8,6 +8,12 @@ import car.hire.controller.RentController;
 import car.hire.dto.RentReturnDto;
 import car.hire.entity.CarEntity;
 import car.hire.entity.CustomerEntity;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -283,7 +289,40 @@ public class RentBodyPanel2 extends javax.swing.JPanel {
                     userID);
 
             String result = rentController.returnCar(dto);
-            JOptionPane.showMessageDialog(rentIDText, result);
+            JOptionPane.showMessageDialog(this, result);
+            
+            if (result.equals("Success")) {
+
+                    LocalDate from = fromDateToLocalDate(dto.getFromDate());
+                    LocalDate to = fromDateToLocalDate(dto.getToDate());
+                    LocalDate now = LocalDate.now();
+                    LocalTime nowTime = LocalTime.now();
+
+                    Period diff = Period.between(from, to);
+                    int days = diff.getDays() + 1;
+                    Double total = (diff.getDays() + 1) * dto.getPerDayRent();
+                    Double balan = total - (Double.valueOf(advanceText.getText()) + Double.valueOf(keyMoneyText.getText()));
+
+                    JOptionPane.showMessageDialog(this, "\t\tInvoic\n\n" + now + "\n" + nowTime + "\n" + "\n"
+                            + "Rent ID                  :" + rentId + "\n"
+                            + "Customer ID          :" + ce.getCustId() + "\n"
+                            + "Customer Name   :" + ce.getCustName() + "\n"
+                            + "Customer NIC        :" + ce.getNic() + "\n"
+                            + "\n"
+                            + "Vehicle ID        :" + ce1.getVehicleId() + "\n"
+                            + "Vehicle Model :" + ce1.getModel() + "\n"
+                            + "Vehicle Brand :" + ce1.getBrand() + "\n"
+                            + "\n"
+                            + "No of Days :" + days + "\n"
+                            + "Total            :" + total + "\n"
+                            + "Advance     :" + Double.valueOf(advanceText.getText()) + "\n"
+                            + "Key Money :" + Double.valueOf(keyMoneyText.getText()) + "\n"
+                            + "Balance      :" + balan
+                    );
+
+                }
+            clearPanel();
+            
         } catch (Exception ex) {
             Logger.getLogger(RentBodyPanel2.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -317,5 +356,26 @@ public class RentBodyPanel2 extends javax.swing.JPanel {
             Logger.getLogger(RentBodyPanel2.class.getName()).log(Level.SEVERE, null, ex);
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
+    }
+    public LocalDate fromDateToLocalDate(Date date) {
+        return Instant.ofEpochMilli(date.getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+    }
+
+    private void clearPanel() {
+        LocalDate now = LocalDate.now();
+        rentIDText.setText("");
+        custIDText.setText("");
+        vehicleIDText.setText("");
+        vehicleDataLabel.setText("");
+        custDataLabel.setText("");
+        perDayRentText.setText("");
+        keyMoneyText.setText("");
+        advanceText.setText("");
+        fromDateChooser.setDate(null);
+        toDateChooser.setDate(null);
+        totalLabel.setText("");
+        finalBalanceText.setText("");
     }
 }

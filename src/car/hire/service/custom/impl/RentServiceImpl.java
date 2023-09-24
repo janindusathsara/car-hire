@@ -171,7 +171,7 @@ public class RentServiceImpl implements RentService {
         for (RentEntity entity : rentEntity) {
             Period diff = Period.between(now, fromDateToLocalDate(entity.getToDate()));
             Period diff2 = Period.between(fromDateToLocalDate(entity.getFromDate()), now);
-            if ((diff.getDays() > 0) & (diff2.getDays() > 0)) {
+            if ((diff.getDays() >= 0) & (diff2.getDays() >= 0)) {
                 RentDto dto = new RentDto(
                         entity.getRentId(),
                         entity.getCustomerEntity(),
